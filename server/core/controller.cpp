@@ -4,27 +4,10 @@
 #include <ezlibs/ezTools.hpp>
 #include <ezlibs/ezExpr.hpp>
 #include <ezlibs/ezImGui.hpp>
-//#include <ezlibs/ezNet.hpp>
+#include <ezlibs/ezNamedPipe.hpp>
 
 bool Controller::init() {
     m_mouseColor = ImGui::GetColorU32(ImVec4(1, 1, 0, 1));
-   
-    /*ez::Net net;
-    net.createSocket(ez::Net::Protocol::TCP);
-    net.bindSocket(8080);
-    net.listenSocket();
-
-    int client_fd = net.acceptConnection();
-
-    // Exemple d'envoi
-    ez::Net::DatasBuffer data_to_send = {'H', 'e', 'l', 'l', 'o', 0};
-    net.sendData(data_to_send, client_fd);
-
-    // Exemple de réception
-    auto received_data = net.receiveData(2048, client_fd);
-    std::cout << "Received " << received_data.size() << " bytes.\n";
-
-    net.closeSocket();*/
 
     return true;
 }
