@@ -32,3 +32,6 @@
 *.app
 /build
 /bin
+/cmake-build-debug
+/.idea
+/.PVS-Studio

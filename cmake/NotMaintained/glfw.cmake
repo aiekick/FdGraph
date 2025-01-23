@@ -8,17 +8,8 @@ set(GLFW_BUILD_WAYLAND OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(${GLFW_SOURCE_DIR})
 
-if(USE_SHARED_LIBS)
-	set_target_properties(glfw PROPERTIES FOLDER 3rdparty/Shared/glfw)
-	set_target_properties(update_mappings PROPERTIES FOLDER 3rdparty/Shared/glfw)
-	set_target_properties(glfw PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "${FINAL_BIN_DIR}")
-	set_target_properties(glfw PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE "${FINAL_BIN_DIR}")
-	set_target_properties(glfw PROPERTIES RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${FINAL_BIN_DIR}")
-	set_target_properties(glfw PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${FINAL_BIN_DIR}")
-else()
-	set_target_properties(glfw PROPERTIES FOLDER 3rdparty/Static/glfw)
-	set_target_properties(update_mappings PROPERTIES FOLDER 3rdparty/Static/glfw)
-endif()
+set_target_properties(glfw PROPERTIES FOLDER 3rdparty/Static/glfw)
+set_target_properties(update_mappings PROPERTIES FOLDER 3rdparty/Static/glfw)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 	target_compile_options(glfw PRIVATE -Wno-everything) # disable all warnings, since im not maintaining this lib
