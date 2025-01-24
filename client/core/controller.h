@@ -18,7 +18,7 @@ private:
     float m_mouseRadius = 100.0f;
     ImU32 m_mouseColor = 0;
     ez::FdGraph m_fdGraph;
-    std::unique_ptr<ez::NamedPipe> m_namedPipeClientPtr;
+    ez::NamedPipe m_pipe;
 
 public:
     bool init();

@@ -8,12 +8,11 @@
 
 bool Controller::init() {
     m_mouseColor = ImGui::GetColorU32(ImVec4(1, 1, 0, 1));
-    m_namedPipeClientPtr = std::make_unique<ez::NamedPipe>("FdGraph", false);
-    return true;
+    return m_pipe.initClient("FdGraph");
 }
 
 void Controller::unit() {
-    m_namedPipeClientPtr.reset();
+    m_pipe.unit();
 }
 
 bool Controller::drawInput(float vMaxWidth) {
@@ -59,5 +58,7 @@ void Controller::drawCursor() {
 }
 
 void Controller::m_createNode(const ez::fvec2& vNodePos) {
-    m_namedPipeClientPtr->write("CreateNode(" + vNodePos.string() + ")");
+    std::string msg = "CreateNode(" + vNodePos.string() + ")";
+    ez::NamedPipe::DatasBuffer buffer(msg.begin(), msg.end());
+    m_pipe.write(buffer);
 }

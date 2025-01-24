@@ -17,7 +17,7 @@ private:
     float m_mouseRadius = 100.0f;
     ImU32 m_mouseColor = 0;
     ez::FdGraph m_fdGraph;
-    std::atomic<bool> m_threadWorking;
+    std::atomic<bool> m_threadWorking{true};
     std::thread m_namedPipeServerThread;
 
 public:

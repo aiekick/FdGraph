@@ -66,7 +66,7 @@ set_target_properties(${PROJECT} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBI
 
 add_custom_command(
 	TARGET ${PROJECT} PRE_BUILD
-	COMMAND BuildInc ${PROJECT} $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/client/${PROJECT}Build.h> -ff ${CMAKE_SOURCE_DIR}/common/res/big.flf --no-help)
+	COMMAND BuildInc ${PROJECT} $<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT}Build.h> -ff ${CMAKE_SOURCE_DIR}/common/res/big.flf --no-help)
 
 ########################################################
 ##### TESTS ############################################

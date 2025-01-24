@@ -3,7 +3,7 @@
 
 #include "app.h"
 
-
+#include <headers/FdGraphBuild.h>
 #include <backend/backend.h>
 
 #include <ezlibs/ezApp.hpp>

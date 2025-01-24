@@ -8,7 +8,8 @@
 
 bool Controller::init() {
     m_mouseColor = ImGui::GetColorU32(ImVec4(1, 1, 0, 1));
-    m_namedPipeServerThread = std::thread(&m_namedPipeServerWorker, this, std::ref(m_threadWorking));
+    m_threadWorking = true;
+    m_namedPipeServerThread = std::thread(&Controller::m_namedPipeServerWorker, this);
     return true;
 }
 
@@ -78,11 +79,17 @@ void Controller::drawCursor() {
 }
 
 void Controller::m_namedPipeServerWorker() {
-    ez::NamedPipe pipeServer("FdGraph", false);
-    std::cout << "Server \"FdGraph\" started" << std::endl;
-    while (m_threadWorking) {
-        std::string message = pipeServer.read();
-        std::cout << "Server received: " << message << std::endl;
+    ez::NamedPipe server;
+    if (server.initServer("FdGraph", 512)) {
+        std::cout << "Server \"FdGraph\" started" << std::endl;
+        while (m_threadWorking) {
+            if (server.read()) {
+                size_t size;
+                auto msg = server.getMessage(size);
+                std::cout << "Server received: " << std::string(msg.data(), size) << std::endl;
+            }
+        }
+        std::cout << "Server \"FdGraph\" endded" << std::endl;
+        server.unit();
     }
-    std::cout << "Server \"FdGraph\" endded" << std::endl;
 }
