@@ -8,12 +8,13 @@
 
 bool Controller::init() {
     m_mouseColor = ImGui::GetColorU32(ImVec4(1, 1, 0, 1));
-
+    m_namedPipeServerThread = std::thread(&m_namedPipeServerWorker, this, std::ref(m_threadWorking));
     return true;
 }
 
 void Controller::unit() {
-
+    m_threadWorking = false;
+    m_namedPipeServerThread.join();
 }
 
 bool Controller::drawInput(float vMaxWidth) {
@@ -45,15 +46,15 @@ bool Controller::drawControl(float vMaxWidth) {
 }
 
 void Controller::drawGraph() {
-    m_graph.update(ImGui::GetIO().DeltaTime);
+    m_fdGraph.update(ImGui::GetIO().DeltaTime);
     auto *draw_list_ptr = ImGui::GetWindowDrawList();
     if (draw_list_ptr != nullptr) {
-        for (const auto& link : m_graph.getLinks()) {
+        for (const auto& link : m_fdGraph.getLinks()) {
             auto node_from_ptr = link.from.lock();
             auto node_to_ptr = link.to.lock();
             draw_list_ptr->AddLine(node_from_ptr->position, node_to_ptr->position, m_mouseColor);
         }
-        for (const auto& node_ptr : m_graph.getNodes()) {
+        for (const auto& node_ptr : m_fdGraph.getNodes()) {
             draw_list_ptr->AddCircleFilled(node_ptr->position, 20.0f, m_mouseColor);
         }
     }
@@ -61,11 +62,27 @@ void Controller::drawGraph() {
 
 void Controller::drawCursor() {
     const auto& mouse_pos = ImGui::GetMousePos();
-    auto *draw_list_ptr = ImGui::GetWindowDrawList();
+    auto* draw_list_ptr = ImGui::GetWindowDrawList();
     if (draw_list_ptr != nullptr) {
         draw_list_ptr->AddCircle(mouse_pos, m_mouseRadius, m_mouseColor);
     }
     if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-        m_graph.addNode().position = mouse_pos;
+        auto node = m_fdGraph.addNode();
+        node.lock()->position = mouse_pos;
+        for (const auto& node_ptr : m_fdGraph.getNodes()) {
+            if (ez::length(node_ptr->position - ez::fvec2(mouse_pos)) < m_mouseRadius) {
+                m_fdGraph.addLink(node_ptr, node);
+            }
+        }
     }
+}
+
+void Controller::m_namedPipeServerWorker() {
+    ez::NamedPipe pipeServer("FdGraph", false);
+    std::cout << "Server \"FdGraph\" started" << std::endl;
+    while (m_threadWorking) {
+        std::string message = pipeServer.read();
+        std::cout << "Server received: " << message << std::endl;
+    }
+    std::cout << "Server \"FdGraph\" endded" << std::endl;
 }

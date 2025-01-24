@@ -1,9 +1,13 @@
 #pragma once
 
 #include <vector>
+#include <thread>
+#include <memory>
+#include <atomic>
 #include <cstdint>
 #include <imguipack.h>
 #include <ezlibs/ezFdGraph.hpp>
+#include <ezlibs/ezNamedPipe.hpp>
 
 typedef std::vector<ImVec2> P2dArray;
 typedef std::vector<int32_t> IntArray;
@@ -12,6 +16,9 @@ class Controller {
 private:
     float m_mouseRadius = 100.0f;
     ImU32 m_mouseColor = 0;
+    ez::FdGraph m_fdGraph;
+    std::atomic<bool> m_threadWorking;
+    std::thread m_namedPipeServerThread;
 
 public:
     bool init();
@@ -22,7 +29,7 @@ public:
     void drawCursor();
 
 private:
-    ez::FdGraph m_graph;
+    void m_namedPipeServerWorker();
 
 public:  // singleton
     static Controller* Instance() {
