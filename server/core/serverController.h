@@ -19,6 +19,8 @@ private:
     ez::fvec2 m_cursorPos;
     ez::FdGraph m_fdGraph;
     std::mutex m_mutex;
+    bool m_wasPressed = false;
+    bool m_wasDragging = false;
     ez::CmdProcessor m_cmdProcessor;
     ez::NamedPipe::Server::Ptr m_serverPtr;
     std::atomic<bool> m_threadWorking{true};

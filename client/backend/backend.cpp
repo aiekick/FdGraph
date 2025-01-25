@@ -102,11 +102,11 @@ void Backend::PostRenderingActions() {
 void Backend::setAppTitle(const std::string& vLabel) {
     if (!vLabel.empty()) {
         char bufTitle[1024];
-        snprintf(bufTitle, 1023, "DigitArt Beta %s - %s.lum", FdGraph_BuildId, vLabel.c_str());
+        snprintf(bufTitle, 1023, "%s Client Beta %s - %s", FdGraph_Label, FdGraph_BuildId, vLabel.c_str());
         glfwSetWindowTitle(m_MainWindowPtr, bufTitle);
     } else {
         char bufTitle[1024];
-        snprintf(bufTitle, 1023, "DigitArt Beta %s", FdGraph_BuildId);
+        snprintf(bufTitle, 1023, "%s Client Beta %s", FdGraph_Label, FdGraph_BuildId);
         glfwSetWindowTitle(m_MainWindowPtr, bufTitle);
     }
 }

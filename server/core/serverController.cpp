@@ -77,9 +77,14 @@ void ServerController::drawCursor() {
     if (ImGui::IsWindowHovered()) {
         m_cursorPos = ImGui::GetMousePos();
     }
-    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&  //
-        !ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
-        m_createNode(m_cursorPos);
+    if (ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+        m_wasDragging = true;
+    }
+    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+        if (!m_wasDragging) {
+            m_createNode(m_cursorPos);
+            m_wasDragging = false;
+        }
     }
 }
 
