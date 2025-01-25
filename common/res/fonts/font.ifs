@@ -6,16 +6,26 @@
 				<glyph orgId="61479" newId="61479" orgName="alert-box" newName="alert-box" trans="0;0" scale="1;1"/>
 				<glyph orgId="61499" newId="61499" orgName="apps" newName="apps" trans="0;0" scale="1;1"/>
 				<glyph orgId="61500" newId="61500" orgName="archive" newName="archive" trans="0;0" scale="1;1"/>
+				<glyph orgId="61505" newId="61505" orgName="arrow-all" newName="arrow-all" trans="0;0" scale="1;1"/>
+				<glyph orgId="61506" newId="61506" orgName="arrow-bottom-left" newName="arrow-bottom-left" trans="0;0" scale="1;1"/>
+				<glyph orgId="61507" newId="61507" orgName="arrow-bottom-right" newName="arrow-bottom-right" trans="0;0" scale="1;1"/>
+				<glyph orgId="61508" newId="61508" orgName="arrow-collapse-all" newName="arrow-collapse-all" trans="0;0" scale="1;1"/>
+				<glyph orgId="61509" newId="61509" orgName="arrow-down" newName="arrow-down" trans="0;0" scale="1;1"/>
 				<glyph orgId="61510" newId="61510" orgName="arrow-down-thick" newName="arrow-down-thick" trans="0;0" scale="1;1"/>
 				<glyph orgId="61512" newId="61512" orgName="arrow-down-bold-circle-outline" newName="arrow-down-bold-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="61515" newId="61515" orgName="arrow-down-drop-circle-outline" newName="arrow-down-drop-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="61516" newId="61516" orgName="arrow-expand-all" newName="arrow-expand-all" trans="0;0" scale="1;1"/>
+				<glyph orgId="61517" newId="61517" orgName="arrow-left" newName="arrow-left" trans="0;0" scale="1;1"/>
 				<glyph orgId="61518" newId="61518" orgName="arrow-left-thick" newName="arrow-left-thick" trans="0;0" scale="1;1"/>
 				<glyph orgId="61520" newId="61520" orgName="arrow-left-bold-circle-outline" newName="arrow-left-bold-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="61523" newId="61523" orgName="arrow-left-drop-circle-outline" newName="arrow-left-drop-circle-outline" trans="0;0" scale="1;1"/>
+				<glyph orgId="61524" newId="61524" orgName="arrow-right" newName="arrow-right" trans="0;0" scale="1;1"/>
 				<glyph orgId="61525" newId="61525" orgName="arrow-right-thick" newName="arrow-right-thick" trans="0;0" scale="1;1"/>
 				<glyph orgId="61527" newId="61527" orgName="arrow-right-bold-circle-outline" newName="arrow-right-bold-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="61530" newId="61530" orgName="arrow-right-drop-circle-outline" newName="arrow-right-drop-circle-outline" trans="0;0" scale="1;1"/>
+				<glyph orgId="61531" newId="61531" orgName="arrow-top-left" newName="arrow-top-left" trans="0;0" scale="1;1"/>
+				<glyph orgId="61532" newId="61532" orgName="arrow-top-right" newName="arrow-top-right" trans="0;0" scale="1;1"/>
+				<glyph orgId="61533" newId="61533" orgName="arrow-up" newName="arrow-up" trans="0;0" scale="1;1"/>
 				<glyph orgId="61534" newId="61534" orgName="arrow-up-thick" newName="arrow-up-thick" trans="0;0" scale="1;1"/>
 				<glyph orgId="61536" newId="61536" orgName="arrow-up-bold-circle-outline" newName="arrow-up-bold-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="61539" newId="61539" orgName="arrow-up-drop-circle-outline" newName="arrow-up-drop-circle-outline" trans="0;0" scale="1;1"/>
@@ -44,6 +54,12 @@
 				<glyph orgId="61823" newId="61823" orgName="comment-check" newName="comment-check" trans="0;0" scale="1;1"/>
 				<glyph orgId="61828" newId="61828" orgName="comment-processing" newName="comment-processing" trans="0;0" scale="1;1"/>
 				<glyph orgId="61832" newId="61832" orgName="comment-text" newName="comment-text" trans="0;0" scale="1;1"/>
+				<glyph orgId="61843" newId="61843" orgName="content-save" newName="content-save" trans="0;0" scale="1;1"/>
+				<glyph orgId="61853" newId="61853" orgName="credit-card-scan-outline" newName="credit-card-scan-outline" trans="0;0" scale="1;1"/>
+				<glyph orgId="61854" newId="61854" orgName="crop" newName="crop" trans="0;0" scale="1;1"/>
+				<glyph orgId="61855" newId="61855" orgName="crop-free" newName="crop-free" trans="0;0" scale="1;1"/>
+				<glyph orgId="61859" newId="61859" orgName="crosshairs" newName="crosshairs" trans="0;0" scale="1;1"/>
+				<glyph orgId="61860" newId="61860" orgName="crosshairs-gps" newName="crosshairs-gps" trans="0;0" scale="1;1"/>
 				<glyph orgId="61883" newId="61883" orgName="debug-step-into" newName="debug-step-into" trans="0;0" scale="1;1"/>
 				<glyph orgId="61884" newId="61884" orgName="debug-step-out" newName="debug-step-out" trans="0;0" scale="1;1"/>
 				<glyph orgId="61885" newId="61885" orgName="debug-step-over" newName="debug-step-over" trans="0;0" scale="1;1"/>
@@ -59,6 +75,7 @@
 				<glyph orgId="62004" newId="62004" orgName="filter-remove" newName="filter-remove" trans="0;0" scale="1;1"/>
 				<glyph orgId="62025" newId="62025" orgName="floppy" newName="floppy" trans="0;0" scale="1;1"/>
 				<glyph orgId="62027" newId="62027" orgName="folder" newName="folder" trans="0;0" scale="1;1"/>
+				<glyph orgId="62145" newId="62145" orgName="grid" newName="grid" trans="0;0" scale="1;1"/>
 				<glyph orgId="62301" newId="62301" orgName="menu-down" newName="menu-down" trans="0;0" scale="1;1"/>
 				<glyph orgId="62302" newId="62302" orgName="menu-left" newName="menu-left" trans="0;0" scale="1;1"/>
 				<glyph orgId="62303" newId="62303" orgName="menu-right" newName="menu-right" trans="0;0" scale="1;1"/>
@@ -78,9 +95,16 @@
 				<glyph orgId="62478" newId="62478" orgName="play-pause" newName="play-pause" trans="0;0" scale="1;1"/>
 				<glyph orgId="62485" newId="62485" orgName="plus" newName="plus" trans="0;0" scale="1;1"/>
 				<glyph orgId="62489" newId="62489" orgName="plus-circle-outline" newName="plus-circle-outline" trans="0;0" scale="1;1"/>
+				<glyph orgId="62528" newId="62528" orgName="ray-end" newName="ray-end" trans="0;0" scale="1;1"/>
+				<glyph orgId="62529" newId="62529" orgName="ray-end-arrow" newName="ray-end-arrow" trans="0;0" scale="1;1"/>
+				<glyph orgId="62530" newId="62530" orgName="ray-start" newName="ray-start" trans="0;0" scale="1;1"/>
+				<glyph orgId="62531" newId="62531" orgName="ray-start-arrow" newName="ray-start-arrow" trans="0;0" scale="1;1"/>
+				<glyph orgId="62532" newId="62532" orgName="ray-start-end" newName="ray-start-end" trans="0;0" scale="1;1"/>
+				<glyph orgId="62533" newId="62533" orgName="ray-vertex" newName="ray-vertex" trans="0;0" scale="1;1"/>
 				<glyph orgId="62544" newId="62544" orgName="refresh" newName="refresh" trans="0;0" scale="1;1"/>
 				<glyph orgId="62553" newId="62553" orgName="replay" newName="replay" trans="0;0" scale="1;1"/>
 				<glyph orgId="62554" newId="62554" orgName="reply" newName="reply" trans="0;0" scale="1;1"/>
+				<glyph orgId="62573" newId="62573" orgName="ruler" newName="ruler" trans="0;0" scale="1;1"/>
 				<glyph orgId="62603" newId="62603" orgName="server" newName="server" trans="0;0" scale="1;1"/>
 				<glyph orgId="62611" newId="62611" orgName="settings" newName="settings" trans="0;0" scale="1;1"/>
 				<glyph orgId="62634" newId="62634" orgName="sitemap" newName="sitemap" trans="0;0" scale="1;1"/>
@@ -102,12 +126,12 @@
 				<glyph orgId="62732" newId="62732" orgName="texture" newName="texture" trans="0;0" scale="1;1"/>
 				<glyph orgId="62753" newId="62753" orgName="toggle-switch" newName="toggle-switch" trans="0;0" scale="1;1"/>
 				<glyph orgId="62754" newId="62754" orgName="toggle-switch-off" newName="toggle-switch-off" trans="0;0" scale="1;1"/>
-				<glyph orgId="62915" newId="62915" orgName="youtube" newName="youtube" trans="0;0" scale="1;1"/>
+				<glyph orgId="62814" newId="62814" orgName="vector-line" newName="vector-line" trans="0;0" scale="1;1"/>
+				<glyph orgId="62816" newId="62816" orgName="vector-polygon" newName="vector-polygon" trans="0;0" scale="1;1"/>
 				<glyph orgId="62934" newId="62934" orgName="alert-circle-outline" newName="alert-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="62942" newId="62942" orgName="comment-remove" newName="comment-remove" trans="0;0" scale="1;1"/>
 				<glyph orgId="62945" newId="62945" orgName="check-circle-outline" newName="check-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="62995" newId="62995" orgName="file-hidden" newName="file-hidden" trans="0;0" scale="1;1"/>
-				<glyph orgId="63003" newId="63003" orgName="content-save-settings" newName="content-save-settings" trans="0;0" scale="1;1"/>
 				<glyph orgId="63013" newId="63013" orgName="help-circle-outline" newName="help-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="63022" newId="63022" orgName="tune" newName="tune" trans="0;0" scale="1;1"/>
 				<glyph orgId="63069" newId="63069" orgName="shape-circle-plus" newName="shape-circle-plus" trans="0;0" scale="1;1"/>
@@ -117,6 +141,7 @@
 				<glyph orgId="63130" newId="63130" orgName="emoticon-dead-outline" newName="emoticon-dead-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="63131" newId="63131" orgName="emoticon-excited-outline" newName="emoticon-excited-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="63133" newId="63133" orgName="format-color-text" newName="format-color-text" trans="0;0" scale="1;1"/>
+				<glyph orgId="63223" newId="63223" orgName="nut" newName="nut" trans="0;0" scale="1;1"/>
 				<glyph orgId="63278" newId="63278" orgName="arrow-down-bold-box" newName="arrow-down-bold-box" trans="0;0" scale="1;1"/>
 				<glyph orgId="63281" newId="63281" orgName="arrow-left-bold-box" newName="arrow-left-bold-box" trans="0;0" scale="1;1"/>
 				<glyph orgId="63284" newId="63284" orgName="arrow-right-bold-box" newName="arrow-right-bold-box" trans="0;0" scale="1;1"/>
@@ -170,6 +195,7 @@
 				<glyph orgId="64798" newId="64798" orgName="email-alert-outline" newName="email-alert-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="64802" newId="64802" orgName="apps-box" newName="apps-box" trans="0;0" scale="1;1"/>
 				<glyph orgId="64823" newId="64823" orgName="bell-circle-outline" newName="bell-circle-outline" trans="0;0" scale="1;1"/>
+				<glyph orgId="64882" newId="64882" orgName="rewind-30" newName="rewind-30" trans="0;0" scale="1;1"/>
 				<glyph orgId="64940" newId="64940" orgName="format-list-bulleted-square" newName="format-list-bulleted-square" trans="0;0" scale="1;1"/>
 				<glyph orgId="65113" newId="65113" orgName="send-circle-outline" newName="send-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="65134" newId="65134" orgName="check-bold" newName="check-bold" trans="0;0" scale="1;1"/>
@@ -183,6 +209,8 @@
 				<glyph orgId="65248" newId="65248" orgName="record-circle-outline" newName="record-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="65276" newId="65276" orgName="cpu-32-bit" newName="cpu-32-bit" trans="0;0" scale="1;1"/>
 				<glyph orgId="65277" newId="65277" orgName="cpu-64-bit" newName="cpu-64-bit" trans="0;0" scale="1;1"/>
+				<glyph orgId="65299" newId="65299" orgName="fit-to-page-outline" newName="fit-to-page-outline" trans="0;0" scale="1;1"/>
+				<glyph orgId="65308" newId="65308" orgName="image-filter-center-focus-strong" newName="image-filter-center-focus-strong" trans="0;0" scale="1;1"/>
 				<glyph orgId="65458" newId="65458" orgName="timeline-alert" newName="timeline-alert" trans="0;0" scale="1;1"/>
 				<glyph orgId="65459" newId="65459" orgName="timeline-plus" newName="timeline-plus" trans="0;0" scale="1;1"/>
 				<glyph orgId="65462" newId="65462" orgName="timeline-help" newName="timeline-help" trans="0;0" scale="1;1"/>
@@ -194,7 +222,7 @@
 			<fontsize>50</fontsize>
 			<generatedfilename>fontIcons</generatedfilename>
 			<cardglyhpheight>40</cardglyhpheight>
-			<cardcountrowsmax>20</cardcountrowsmax>
+			<cardcountrowsmax>37</cardcountrowsmax>
 			<rasterizer>1</rasterizer>
 			<freetypeflag>259</freetypeflag>
 			<freetypemultiply>2</freetypemultiply>
@@ -202,6 +230,9 @@
 			<filtering>9729</filtering>
 			<enabled>true</enabled>
 			<collapsed>false</collapsed>
+			<filters>
+				<filter name="you"/>
+			</filters>
 		</font>
 		<rangecoloring show="false" hash="10;15;35;0.5"/>
 		<previewglyphcount>28</previewglyphcount>
@@ -216,11 +247,11 @@
 		<glyphdrawingflags>1535</glyphdrawingflags>
 		<glyphpreviewquadbeziercounsegment>0</glyphpreviewquadbeziercounsegment>
 		<glyphpreviewzoomprecision>20</glyphpreviewzoomprecision>
-		<genmodeflags>34072</genmodeflags>
+		<genmodeflags>34075</genmodeflags>
 		<fonttomergein>MaterialDesignIcons.ttf</fonttomergein>
 		<glyphdisplaytuningmode>1</glyphdisplaytuningmode>
 		<sourcefontpaneflags>1</sourcefontpaneflags>
-		<lastgeneratedpath>C:\Gamedev\gitea\DigitArt\src\Res</lastgeneratedpath>
+		<lastgeneratedpath>C:\Gamedev\gitea\ForceDirectedGraph\common\res</lastgeneratedpath>
 		<lastgeneratedfilename>fontIcons.cpp</lastgeneratedfilename>
 		<zoomglyphs>false</zoomglyphs>
 		<showbaseline>false</showbaseline>

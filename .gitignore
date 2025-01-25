@@ -35,3 +35,5 @@
 /cmake-build-debug
 /.idea
 /.PVS-Studio
+/tools/debug.log
+/tools/imgui.ini

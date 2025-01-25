@@ -173,10 +173,6 @@ void Frontend::m_drawCanvas() {
             }
             ServerController::Instance()->drawGraph(m_canvas);
             ServerController::Instance()->drawCursor(m_canvas);
-            const auto mp = ImGui::GetMousePos();
-            m_canvas.suspend();
-            ImGui::SetTooltip("%.2f,%.2f", mp.x, mp.y);
-            m_canvas.resume();
             m_canvas.end();
         }
     }

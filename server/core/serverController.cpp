@@ -80,7 +80,8 @@ void ServerController::drawCursor(ImCanvas& vCanvas) {
         if (draw_list_ptr != nullptr) {
             draw_list_ptr->AddCircle(m_cursorPos, m_mouseRadius, m_mouseColor);
         }
-        m_moveCursor(ImGui::GetMousePos());
+        const auto mp = ImGui::GetMousePos();
+        m_moveCursor(mp);
         if (ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
             m_wasDragging = true;
         }
@@ -90,6 +91,9 @@ void ServerController::drawCursor(ImCanvas& vCanvas) {
             }
             m_wasDragging = false;
         }
+        vCanvas.suspend();
+        ImGui::SetTooltip("%.2f,%.2f", mp.x, mp.y);
+        vCanvas.resume();
     }
 }
     
