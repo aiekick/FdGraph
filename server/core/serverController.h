@@ -14,13 +14,16 @@
 
 class ServerController {
 private:
+    ImWidgets::QuickStringCombo m_linkNodeMode;
     float m_mouseRadius = 100.0f;
     ImU32 m_mouseColor = 0;
+    ImU32 m_poximityColor = 0;
     ez::fvec2 m_cursorPos;
     ez::FdGraph m_fdGraph;
     std::mutex m_mutex;
     bool m_wasPressed = false;
     bool m_wasDragging = false;
+    ez::FdGraph::NodeWeak m_shortestNode;
     ez::CmdProcessor m_cmdProcessor;
     ez::NamedPipe::Server::Ptr m_serverPtr;
     std::atomic<bool> m_threadWorking{true};
@@ -31,8 +34,8 @@ public:
     void unit();
     bool drawInput(float vMaxWidth);
     bool drawControl(float vMaxWidth);
-    void drawGraph();
-    void drawCursor();
+    void drawGraph(ImCanvas& vCanvas);
+    void drawCursor(ImCanvas& vCanvas);
 
 private:
     void m_namedPipeServerWorker();

@@ -171,8 +171,12 @@ void Frontend::m_drawCanvas() {
                 m_canvas.getViewRef().set(content_size * 0.5f, 1.0f);
                 m_firstDraw = false;
             }
-            ServerController::Instance()->drawGraph();
-            ServerController::Instance()->drawCursor();
+            ServerController::Instance()->drawGraph(m_canvas);
+            ServerController::Instance()->drawCursor(m_canvas);
+            const auto mp = ImGui::GetMousePos();
+            m_canvas.suspend();
+            ImGui::SetTooltip("%.2f,%.2f", mp.x, mp.y);
+            m_canvas.resume();
             m_canvas.end();
         }
     }
