@@ -6,19 +6,17 @@
 #include <atomic>
 #include <cstdint>
 #include <imguipack.h>
+#include <ezlibs/ezTime.hpp>
+#include <ezlibs/ezTools.hpp>
 #include <ezlibs/ezFdGraph.hpp>
 #include <ezlibs/ezNamedPipe.hpp>
+#include <ezlibs/ezCmdProcessor.hpp>
 
-typedef std::vector<ImVec2> P2dArray;
-typedef std::vector<int32_t> IntArray;
-
-class Controller {
+class ClientController {
 private:
-    float m_mouseRadius = 100.0f;
-    ImU32 m_mouseColor = 0;
-    ez::FdGraph m_fdGraph;
-    std::atomic<bool> m_threadWorking{true};
-    std::thread m_namedPipeServerThread;
+    ez::CmdProcessor m_cmdProcessor;
+    ez::NamedPipe::Client::Ptr m_clientPtr;
+    ez::fvec2 m_lastCursorPos;
 
 public:
     bool init();
@@ -29,11 +27,12 @@ public:
     void drawCursor();
 
 private:
-    void m_namedPipeServerWorker();
+    void m_createNode(const ez::fvec2& vNodePos);
+    void m_moveCursor(const ez::fvec2& vCursorPos);
 
 public:  // singleton
-    static Controller* Instance() {
-        static Controller _instance;
+    static ClientController* Instance() {
+        static ClientController _instance;
         return &_instance;
     }
 };

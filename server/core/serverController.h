@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mutex>
 #include <vector>
 #include <thread>
 #include <memory>
@@ -9,16 +10,19 @@
 #include <ezlibs/ezTools.hpp>
 #include <ezlibs/ezFdGraph.hpp>
 #include <ezlibs/ezNamedPipe.hpp>
+#include <ezlibs/ezCmdProcessor.hpp>
 
-typedef std::vector<ImVec2> P2dArray;
-typedef std::vector<int32_t> IntArray;
-
-class Controller {
+class ServerController {
 private:
     float m_mouseRadius = 100.0f;
     ImU32 m_mouseColor = 0;
+    ez::fvec2 m_cursorPos;
     ez::FdGraph m_fdGraph;
-    ez::NamedPipe m_pipe;
+    std::mutex m_mutex;
+    ez::CmdProcessor m_cmdProcessor;
+    ez::NamedPipe::Server::Ptr m_serverPtr;
+    std::atomic<bool> m_threadWorking{true};
+    std::thread m_namedPipeServerControllerThread;
 
 public:
     bool init();
@@ -29,11 +33,13 @@ public:
     void drawCursor();
 
 private:
+    void m_namedPipeServerWorker();
     void m_createNode(const ez::fvec2& vNodePos);
+    void m_moveCursor(const ez::fvec2& vCursorPos);
 
 public:  // singleton
-    static Controller* Instance() {
-        static Controller _instance;
+    static ServerController* Instance() {
+        static ServerController _instance;
         return &_instance;
     }
 };

@@ -24,7 +24,7 @@
 #include <ezlibs/ezFile.hpp>
 #include <frontend/frontend.h>
 
-#include <core/controller.h>
+#include <core/clientController.h>
 
 // we include the cpp just for embedded fonts
 #include <res/fontIcons.cpp>
@@ -348,12 +348,12 @@ bool Backend::m_InitImGui() {
 
 bool Backend::m_InitSystems() {
     bool ret = true;
-    ret &= Controller::Instance()->init();
+    ret &= ClientController::Instance()->init();
     return ret;
 }
 
 void Backend::m_UnitSystems() {
-    Controller::Instance()->unit();
+    ClientController::Instance()->unit();
 }
 
 void Backend::m_UnitImGui() {

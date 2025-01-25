@@ -21,7 +21,7 @@ limitations under the License.
 
 #include <imguipack.h>
 
-#include <core/controller.h>
+#include <core/clientController.h>
 
 #include <res/fontIcons.h>
 
@@ -141,14 +141,14 @@ void Frontend::m_drawMainMenuBar() {
 
             ImGui::EndMenu();
         }
-        Controller::Instance()->drawInput(ImGui::GetContentRegionAvail().x);
+        ClientController::Instance()->drawInput(ImGui::GetContentRegionAvail().x);
         ImGui::EndMainMenuBar();
     }
 }
 
 void Frontend::m_drawMainStatusBar() {
     if (ImGui::BeginMainStatusBar()) {
-        Controller::Instance()->drawControl(ImGui::GetContentRegionAvail().x);
+        ClientController::Instance()->drawControl(ImGui::GetContentRegionAvail().x);
         ImGui::EndMainStatusBar();
     }
 }
@@ -171,8 +171,8 @@ void Frontend::m_drawCanvas() {
                 m_canvas.getViewRef().set(content_size * 0.5f, 1.0f);
                 m_firstDraw = false;
             }
-            Controller::Instance()->drawGraph();
-            Controller::Instance()->drawCursor();
+            ClientController::Instance()->drawGraph();
+            ClientController::Instance()->drawCursor();
             m_canvas.end();
         }
     }
