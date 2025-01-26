@@ -13,6 +13,14 @@
 #include <ezlibs/ezFdGraph.hpp>
 #include <ezlibs/ezNamedPipe.hpp>
 #include <ezlibs/ezCmdProcessor.hpp>
+#include <ezlibs/ezAABB.hpp>
+
+struct VisualNodeDatas : public ez::FdGraph::NodeDatas {
+    float radius = 1.0f;
+    std::string tag;
+    ImVec4 color;
+    VisualNodeDatas() = default;
+};
 
 class Controller {
 private:
@@ -23,6 +31,10 @@ private:
         MANY,
         Count
     } m_linkingMode{LinkingMode::NONE};
+    bool m_firstDraw = true;
+    bool m_drawGrid = true;
+    bool m_drawScales = false;
+    ez::fAABB m_aabb;
     float m_mouseRadius = 100.0f;
     ImU32 m_mouseColor = 0;
     ImU32 m_poximityColor = 0;
@@ -43,12 +55,14 @@ public:
     bool init();
     void unit();
     void update();
-    bool drawMenu(float vMaxWidth);
+    bool drawMenu(float vMaxWidth, ImCanvas& vCanvas);
     bool drawStatusControl(float vMaxWidth);
     void drawGraph(ImCanvas& vCanvas);
     void drawCursor(ImCanvas& vCanvas);
+    void drawDialogs(const ImVec2& vScreenSize);
 
 private:
+    void m_saveToSvgFile(const std::string& vFilePathName);
     void m_startNamedPipeServer();
     void m_namedPipeServerWorker();
     void m_createNode(const ez::fvec2& vNodePos);

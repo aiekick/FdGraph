@@ -57,8 +57,8 @@ void ClientController::m_moveCursor(const ez::fvec2& vCursorPos) {
 bool Controller::init() {
     m_mouseColor = ImGui::GetColorU32(ImVec4(1, 1, 0, 1));
     m_poximityColor = ImGui::GetColorU32(ImVec4(0.25, 1, 0, 1));
-    m_fdGraph.setForceFactor(500.0f);
-    m_fdGraph.setCentralGravityFactor(5.0f);
+    m_fdGraph.getConfigRef().forceFactor = 500.0f;
+    m_fdGraph.getConfigRef().centralGravityFactor = 5.0f;
     return true;
 }
 
@@ -69,8 +69,45 @@ void Controller::unit() {
     }
 }
 
-bool Controller::drawMenu(float vMaxWidth) {
+bool Controller::drawMenu(float vMaxWidth, ImCanvas& vCanvas) {
     bool ret = false;
+
+    ImGui::Separator();
+    
+    if (ImGui::ContrastedBeginMenu(ICON_FONT_TUNE " ##Tuning")) {
+        if (m_drawGrid || m_drawScales) {
+            ImGui::SliderFloatDefaultCompact(250.0f, "Major step X", &vCanvas.getConfigRef().gridSize.x, 1.0f, 200.0f, 50.0f, 1.0f);
+            ImGui::SliderFloatDefaultCompact(250.0f, "Major step Y", &vCanvas.getConfigRef().gridSize.y, 1.0f, 200.0f, 50.0f, 1.0f);
+            ImGui::SliderFloatDefaultCompact(250.0f, "Subdivs X", &vCanvas.getConfigRef().gridSubdivs.x, 0.0f, 50.0f, 5.0f, 1.0f);
+            ImGui::SliderFloatDefaultCompact(250.0f, "Subdivs Y", &vCanvas.getConfigRef().gridSubdivs.y, 0.0f, 50.0f, 5.0f, 1.0f);
+        }
+        
+        ImGui::Separator();
+
+        ImGui::SliderFloatDefaultCompact(250.0f, "Gravity", &m_fdGraph.getConfigRef().centralGravityFactor, 0.0f, 5.0f, 1.1f, 1.0f);
+        ImGui::SliderFloatDefaultCompact(250.0f, "Force", &m_fdGraph.getConfigRef().forceFactor, 0.0f, 2000.0f, 500.0f, 1.0f);
+
+        ImGui::EndMenu();
+    }
+
+    ImGui::Separator();
+
+    if (ImGui::ContrastedMenuItem(ICON_FONT_TRASH_CAN "##ResetCanvas", "Reset canvas")) {
+        m_firstDraw = true;
+    }
+
+    if (ImGui::ContrastedMenuItem(ICON_FONT_IMAGE_FILTER_CENTER_FOCUS "##ZoomContent", "Zoom to content")) {
+        vCanvas.zoomToContent(ImRect(m_aabb.lowerBound, m_aabb.upperBound));
+        ret = true;
+    }
+
+    ImGui::Separator();
+
+    ImGui::ContrastedMenuItem(ICON_FONT_GRID "##CanvasGrid", "Show grid", &m_drawGrid);
+    ImGui::ContrastedMenuItem(ICON_FONT_RULER "##CanvasRulers", "Show rulers", &m_drawScales);
+
+    ImGui::Separator();
+    
     if (ImGui::ContrastedMenuItem(ICON_FONT_VECTOR_POINT "##NoLink", "No link", m_linkingMode == LinkingMode::NONE)) {
         m_linkingMode = LinkingMode::NONE;
         ret = true;
@@ -87,6 +124,14 @@ bool Controller::drawMenu(float vMaxWidth) {
         m_linkingMode = LinkingMode::MANY;
         ret = true;
     }
+    ImGui::Separator();
+
+    if (ImGui::ContrastedMenuItem(ICON_FONT_FLOPPY "##SaveSvg", "Save to svg")) {
+        IGFD::FileDialogConfig config;
+        config.flags = ImGuiFileDialogFlags_Modal;
+        ImGuiFileDialog::Instance()->OpenDialog("SaveToSvg", "Save to svg", ".svg", config);
+    }
+
     return ret;
 }
 
@@ -112,21 +157,36 @@ void Controller::update() {
         }
     }
     m_fdGraph.updateForces(ImGui::GetIO().DeltaTime);
+    m_aabb.Set(0.0f, 0.0f);
+    for (const auto& node_ptr : m_fdGraph.getNodes()) {
+        m_aabb.Combine(node_ptr->getDatas().pos);
+    }
 }
 
 void Controller::drawGraph(ImCanvas& vCanvas) {
+    if (m_drawGrid) {
+        vCanvas.drawGrid();
+    }
+    if (m_drawScales) {
+        vCanvas.drawScales();
+    }
+    if (m_firstDraw) {
+        vCanvas.resetView();
+        m_firstDraw = false;
+    }
     if (vCanvas.isHovered() && ImGui::IsKeyDown(ImGuiKey_LeftCtrl)) {
         m_buildLinkableNodes();
     }
     auto *draw_list_ptr = ImGui::GetWindowDrawList();
     if (draw_list_ptr != nullptr) {
         for (const auto& link : m_fdGraph.getLinks()) {
-            auto node_from_ptr = link.from.lock();
-            auto node_to_ptr = link.to.lock();
-            draw_list_ptr->AddLine(node_from_ptr->pos, node_to_ptr->pos, m_mouseColor);
+            const auto& from_datas = link.from.lock()->getDatas();
+            const auto& to_datas = link.to.lock()->getDatas();
+            draw_list_ptr->AddLine(from_datas.pos, to_datas.pos, m_mouseColor);
         }
         for (const auto& node_ptr : m_fdGraph.getNodes()) {
-            draw_list_ptr->AddCircleFilled(node_ptr->pos, node_ptr->radius, m_mouseColor);
+            const auto& datas = node_ptr->getDatas<VisualNodeDatas>();
+            draw_list_ptr->AddCircleFilled(datas.pos, datas.radius, ImGui::GetColorU32(datas.color), 8);
         }
         if (vCanvas.isHovered() && ImGui::IsKeyDown(ImGuiKey_LeftCtrl)) {
             m_drawLinkableNodes(draw_list_ptr, vCanvas);
@@ -154,6 +214,17 @@ void Controller::drawCursor(ImCanvas& vCanvas) {
         vCanvas.suspend();
         // ImGui::SetTooltip("%.2f,%.2f", mp.x, mp.y);
         vCanvas.resume();
+    }
+}
+
+void Controller::drawDialogs(const ImVec2& vScreenSize) {
+    ImVec2 max = vScreenSize;
+    ImVec2 min = max * 0.5f;
+    if (ImGuiFileDialog::Instance()->Display("SaveToSvg", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking, min, max)) {
+        if (ImGuiFileDialog::Instance()->IsOk()) {
+            m_saveToSvgFile(ImGuiFileDialog::Instance()->GetFilePathName());
+        }
+        ImGuiFileDialog::Instance()->Close();
     }
 }
 
@@ -190,8 +261,11 @@ void Controller::m_namedPipeServerWorker() {
 }
 
 void Controller::m_createNode(const ez::fvec2& vNodePos) {
-    auto base_node_ptr = m_fdGraph.addNode().lock();
-    base_node_ptr->pos = vNodePos;
+    auto base_node_ptr = m_fdGraph.addNode(VisualNodeDatas()).lock();
+    base_node_ptr->getDatasRef().pos = vNodePos;
+    static int32_t color_idx = 0;
+    static const int32_t color_idx_count = 100;
+    base_node_ptr->getDatasRef<VisualNodeDatas>().color = ez::getRainBowColor(color_idx++, color_idx_count);
     m_createLinks(base_node_ptr);
 }
 
@@ -205,7 +279,7 @@ void Controller::m_buildLinkableNodes() {
             m_tmpLinkableNodes.clear();
             auto cursorPos = ez::fvec2(m_cursorPos);
             for (const auto& other_node_ptr : m_fdGraph.getNodes()) {
-                float other_len = ez::length(other_node_ptr->pos - cursorPos);
+                float other_len = ez::length(other_node_ptr->getDatas().pos - cursorPos);
                 if (other_len < m_mouseRadius) {
                     auto it = std::lower_bound(
                         m_tmpLinkableNodes.begin(),
@@ -231,7 +305,7 @@ void Controller::m_buildLinkableNodes() {
 void Controller::m_drawLinkableNodes(ImDrawList* vDrawnListPtr, ImCanvas& vCanvas) {
     if (!m_linkableNodes.empty()) {
         for (const auto& node : m_linkableNodes) {
-            vDrawnListPtr->AddLine(m_cursorPos, node.lock()->pos, m_poximityColor);
+            vDrawnListPtr->AddLine(m_cursorPos, node.lock()->getDatas().pos, m_poximityColor);
         }
         vDrawnListPtr->AddCircle(m_cursorPos, 3.0f, m_poximityColor);
     }
@@ -244,4 +318,8 @@ void Controller::m_createLinks(const ez::FdGraph::NodeWeak& vNode) {
         }
         m_linkableNodes.clear();
     }
+}
+
+void Controller::m_saveToSvgFile(const std::string& vFilePathName) {
+    EZ_TOOLS_DEBUG_BREAK;
 }

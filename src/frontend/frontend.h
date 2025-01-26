@@ -35,9 +35,6 @@ private:
     bool m_ShowMetric = false;
     ImRect m_DisplayRect = ImRect(ImVec2(0, 0), ImVec2(1280, 720));
     ImCanvas m_canvas;
-    bool m_firstDraw = true;
-    bool m_drawGrid = true;
-    bool m_drawScales = false;
 
 public:
     static bool sCentralWindowHovered;

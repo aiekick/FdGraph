@@ -47,8 +47,7 @@ bool Frontend::init() {
     return m_build();
 }
 
-void Frontend::unit() {
-}
+void Frontend::unit() {}
 
 bool Frontend::isValid() const {
     return false;
@@ -83,20 +82,19 @@ bool Frontend::DrawWidgets(const uint32_t &vCurrentFrame, ImGuiContext *vContext
     return res;
 }
 
-bool Frontend::DrawOverlays(const uint32_t &vCurrentFrame, const ImRect &vRect, ImGuiContext *vContextPtr,
-                            void *vUserDatas) {
+bool Frontend::DrawOverlays(const uint32_t &vCurrentFrame, const ImRect &vRect, ImGuiContext *vContextPtr, void *vUserDatas) {
     bool res = false;
     return res;
 }
 
-bool Frontend::DrawDialogsAndPopups(
-        const uint32_t &vCurrentFrame, const ImRect &vRect, ImGuiContext *vContextPtr, void *vUserDatas) {
+bool Frontend::DrawDialogsAndPopups(const uint32_t &vCurrentFrame, const ImRect &vRect, ImGuiContext *vContextPtr, void *vUserDatas) {
     if (m_ShowImGui) {
         ImGui::ShowDemoWindow(&m_ShowImGui);
     }
     if (m_ShowMetric) {
         ImGui::ShowMetricsWindow(&m_ShowMetric);
     }
+    Controller::Instance()->drawDialogs(vRect.GetSize());
     return false;
 }
 
@@ -105,20 +103,6 @@ void Frontend::m_drawMainMenuBar() {
         if (ImGui::ContrastedBeginMenu(ICON_FONT_SETTINGS " ##Tools")) {
             if (ImGui::ContrastedBeginMenu("Styles")) {
                 ImGuiThemeHelper::Instance()->DrawMenu();
-
-                if (m_drawGrid || m_drawScales) {
-                    if (ImGui::ContrastedBeginMenu("Canvas")) {
-                        ImGui::SliderFloatDefaultCompact(250.0f, "Major step X", &m_canvas.getConfigRef().gridSize.x,
-                                                         1.0f, 200.0f, 50.0f, 1.0f);
-                        ImGui::SliderFloatDefaultCompact(250.0f, "Major step Y", &m_canvas.getConfigRef().gridSize.y,
-                                                         1.0f, 200.0f, 50.0f, 1.0f);
-                        ImGui::SliderFloatDefaultCompact(250.0f, "Subdivs X", &m_canvas.getConfigRef().gridSubdivs.x,
-                                                         0.0f, 50.0f, 5.0f, 1.0f);
-                        ImGui::SliderFloatDefaultCompact(250.0f, "Subdivs Y", &m_canvas.getConfigRef().gridSubdivs.y,
-                                                         0.0f, 50.0f, 5.0f, 1.0f);
-                        ImGui::EndMenu();
-                    }
-                }
 
                 ImGui::Separator();
                 ImGui::ContrastedMenuItem("ImGui", "", &m_ShowImGui);
@@ -132,15 +116,7 @@ void Frontend::m_drawMainMenuBar() {
 
         ImGui::Separator();
 
-        if (ImGui::ContrastedMenuItem(ICON_FONT_TRASH_CAN "##ResetCanvas", "Reset canvas")) {
-            m_firstDraw = true;
-        }
-        ImGui::ContrastedMenuItem(ICON_FONT_GRID "##CanvasGrid", "Show grid", &m_drawGrid);
-        ImGui::ContrastedMenuItem(ICON_FONT_RULER "##CanvasRulers", "Show rulers", &m_drawScales);
-
-        ImGui::Separator();
-
-        Controller::Instance()->drawMenu(ImGui::GetContentRegionAvail().x);
+        Controller::Instance()->drawMenu(ImGui::GetContentRegionAvail().x, m_canvas);
 
         ImGui::EndMainMenuBar();
     }
@@ -167,16 +143,6 @@ void Frontend::m_drawCanvas() {
     if (ImGui::Begin("CanvasWindow", nullptr, flags)) {
         const auto content_size = ImGui::GetContentRegionAvail();
         if (m_canvas.begin("Canvas", content_size)) {
-            if (m_drawGrid) {
-                m_canvas.drawGrid();
-            }
-            if (m_drawScales) {
-                m_canvas.drawScales();
-            }
-            if (m_firstDraw) {
-                m_canvas.getViewRef().set(content_size * 0.5f, 1.0f);
-                m_firstDraw = false;
-            }
             Controller::Instance()->drawGraph(m_canvas);
             Controller::Instance()->drawCursor(m_canvas);
             m_canvas.end();
@@ -221,8 +187,7 @@ ez::xml::Nodes Frontend::getXmlNodes(const std::string &vUserDatas) {
     return node.getChildren();
 }
 
-bool
-Frontend::setFromXmlNodes(const ez::xml::Node &vNode, const ez::xml::Node &vParent, const std::string &vUserDatas) {
+bool Frontend::setFromXmlNodes(const ez::xml::Node &vNode, const ez::xml::Node &vParent, const std::string &vUserDatas) {
     const auto &strName = vNode.getName();
     const auto &strValue = vNode.getContent();
     const auto &strParentName = vParent.getName();
