@@ -21,7 +21,7 @@ limitations under the License.
 
 #include <imguipack.h>
 
-#include <core/serverController.h>
+#include <core/controller.h>
 
 #include <res/fontIcons.h>
 
@@ -102,7 +102,7 @@ bool Frontend::DrawDialogsAndPopups(
 
 void Frontend::m_drawMainMenuBar() {
     if (ImGui::BeginMainMenuBar()) {
-        if (ImGui::ContrastedBeginMenu(ICON_FONT_SETTINGS " Tools")) {
+        if (ImGui::ContrastedBeginMenu(ICON_FONT_SETTINGS " ##Tools")) {
             if (ImGui::ContrastedBeginMenu("Styles")) {
                 ImGuiThemeHelper::Instance()->DrawMenu();
 
@@ -121,8 +121,8 @@ void Frontend::m_drawMainMenuBar() {
                 }
 
                 ImGui::Separator();
-                ImGui::ContrastedMenuItem("Show ImGui", "", &m_ShowImGui);
-                ImGui::ContrastedMenuItem("Show ImGui Metric/Debug", "", &m_ShowMetric);
+                ImGui::ContrastedMenuItem("ImGui", "", &m_ShowImGui);
+                ImGui::ContrastedMenuItem("ImGui Metric/Debug", "", &m_ShowMetric);
 
                 ImGui::EndMenu();
             }
@@ -130,20 +130,25 @@ void Frontend::m_drawMainMenuBar() {
             ImGui::EndMenu();
         }
 
+        ImGui::Separator();
+
         if (ImGui::ContrastedMenuItem(ICON_FONT_TRASH_CAN "##ResetCanvas", "Reset canvas")) {
             m_firstDraw = true;
         }
         ImGui::ContrastedMenuItem(ICON_FONT_GRID "##CanvasGrid", "Show grid", &m_drawGrid);
         ImGui::ContrastedMenuItem(ICON_FONT_RULER "##CanvasRulers", "Show rulers", &m_drawScales);
 
-        ServerController::Instance()->drawInput(ImGui::GetContentRegionAvail().x);
+        ImGui::Separator();
+
+        Controller::Instance()->drawMenu(ImGui::GetContentRegionAvail().x);
+
         ImGui::EndMainMenuBar();
     }
 }
 
 void Frontend::m_drawMainStatusBar() {
     if (ImGui::BeginMainStatusBar()) {
-        ServerController::Instance()->drawControl(ImGui::GetContentRegionAvail().x);
+        Controller::Instance()->drawStatusControl(ImGui::GetContentRegionAvail().x);
         ImGui::EndMainStatusBar();
     }
 }
@@ -172,8 +177,8 @@ void Frontend::m_drawCanvas() {
                 m_canvas.getViewRef().set(content_size * 0.5f, 1.0f);
                 m_firstDraw = false;
             }
-            ServerController::Instance()->drawGraph(m_canvas);
-            ServerController::Instance()->drawCursor(m_canvas);
+            Controller::Instance()->drawGraph(m_canvas);
+            Controller::Instance()->drawCursor(m_canvas);
             m_canvas.end();
         }
     }

@@ -2,6 +2,7 @@
 	<project>
 		<font name="MaterialDesignIcons.ttf">
 			<glyphs>
+				<glyph orgId="61441" newId="61441" orgName="vector-square" newName="vector-square" trans="0;0" scale="1;1"/>
 				<glyph orgId="61442" newId="61442" orgName="access-point" newName="access-point" trans="0;0" scale="1;1"/>
 				<glyph orgId="61479" newId="61479" orgName="alert-box" newName="alert-box" trans="0;0" scale="1;1"/>
 				<glyph orgId="61499" newId="61499" orgName="apps" newName="apps" trans="0;0" scale="1;1"/>
@@ -60,6 +61,10 @@
 				<glyph orgId="61855" newId="61855" orgName="crop-free" newName="crop-free" trans="0;0" scale="1;1"/>
 				<glyph orgId="61859" newId="61859" orgName="crosshairs" newName="crosshairs" trans="0;0" scale="1;1"/>
 				<glyph orgId="61860" newId="61860" orgName="crosshairs-gps" newName="crosshairs-gps" trans="0;0" scale="1;1"/>
+				<glyph orgId="61862" newId="61862" orgName="cube" newName="cube" trans="0;0" scale="1;1"/>
+				<glyph orgId="61863" newId="61863" orgName="cube-outline" newName="cube-outline" trans="0;0" scale="1;1"/>
+				<glyph orgId="61864" newId="61864" orgName="cube-send" newName="cube-send" trans="0;0" scale="1;1"/>
+				<glyph orgId="61865" newId="61865" orgName="cube-unfolded" newName="cube-unfolded" trans="0;0" scale="1;1"/>
 				<glyph orgId="61883" newId="61883" orgName="debug-step-into" newName="debug-step-into" trans="0;0" scale="1;1"/>
 				<glyph orgId="61884" newId="61884" orgName="debug-step-out" newName="debug-step-out" trans="0;0" scale="1;1"/>
 				<glyph orgId="61885" newId="61885" orgName="debug-step-over" newName="debug-step-over" trans="0;0" scale="1;1"/>
@@ -76,6 +81,8 @@
 				<glyph orgId="62025" newId="62025" orgName="floppy" newName="floppy" trans="0;0" scale="1;1"/>
 				<glyph orgId="62027" newId="62027" orgName="folder" newName="folder" trans="0;0" scale="1;1"/>
 				<glyph orgId="62145" newId="62145" orgName="grid" newName="grid" trans="0;0" scale="1;1"/>
+				<glyph orgId="62193" newId="62193" orgName="image-filter-center-focus" newName="image-filter-center-focus" trans="0;0" scale="1;1"/>
+				<glyph orgId="62199" newId="62199" orgName="image-filter-tilt-shift" newName="image-filter-tilt-shift" trans="0;0" scale="1;1"/>
 				<glyph orgId="62301" newId="62301" orgName="menu-down" newName="menu-down" trans="0;0" scale="1;1"/>
 				<glyph orgId="62302" newId="62302" orgName="menu-left" newName="menu-left" trans="0;0" scale="1;1"/>
 				<glyph orgId="62303" newId="62303" orgName="menu-right" newName="menu-right" trans="0;0" scale="1;1"/>
@@ -107,6 +114,8 @@
 				<glyph orgId="62573" newId="62573" orgName="ruler" newName="ruler" trans="0;0" scale="1;1"/>
 				<glyph orgId="62603" newId="62603" orgName="server" newName="server" trans="0;0" scale="1;1"/>
 				<glyph orgId="62611" newId="62611" orgName="settings" newName="settings" trans="0;0" scale="1;1"/>
+				<glyph orgId="62616" newId="62616" orgName="shield" newName="shield" trans="0;0" scale="1;1"/>
+				<glyph orgId="62617" newId="62617" orgName="shield-outline" newName="shield-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="62634" newId="62634" orgName="sitemap" newName="sitemap" trans="0;0" scale="1;1"/>
 				<glyph orgId="62635" newId="62635" orgName="skip-backward" newName="skip-backward" trans="0;0" scale="1;1"/>
 				<glyph orgId="62636" newId="62636" orgName="skip-forward" newName="skip-forward" trans="0;0" scale="1;1"/>
@@ -126,8 +135,14 @@
 				<glyph orgId="62732" newId="62732" orgName="texture" newName="texture" trans="0;0" scale="1;1"/>
 				<glyph orgId="62753" newId="62753" orgName="toggle-switch" newName="toggle-switch" trans="0;0" scale="1;1"/>
 				<glyph orgId="62754" newId="62754" orgName="toggle-switch-off" newName="toggle-switch-off" trans="0;0" scale="1;1"/>
+				<glyph orgId="62806" newId="62806" orgName="vector-circle" newName="vector-circle" trans="0;0" scale="1;1"/>
+				<glyph orgId="62807" newId="62807" orgName="vector-circle-variant" newName="vector-circle-variant" trans="0;0" scale="1;1"/>
 				<glyph orgId="62814" newId="62814" orgName="vector-line" newName="vector-line" trans="0;0" scale="1;1"/>
+				<glyph orgId="62815" newId="62815" orgName="vector-point" newName="vector-point" trans="0;0" scale="1;1"/>
 				<glyph orgId="62816" newId="62816" orgName="vector-polygon" newName="vector-polygon" trans="0;0" scale="1;1"/>
+				<glyph orgId="62817" newId="62817" orgName="vector-polyline" newName="vector-polyline" trans="0;0" scale="1;1"/>
+				<glyph orgId="62819" newId="62819" orgName="vector-triangle" newName="vector-triangle" trans="0;0" scale="1;1"/>
+				<glyph orgId="62918" newId="62918" orgName="vector-rectangle" newName="vector-rectangle" trans="0;0" scale="1;1"/>
 				<glyph orgId="62934" newId="62934" orgName="alert-circle-outline" newName="alert-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="62942" newId="62942" orgName="comment-remove" newName="comment-remove" trans="0;0" scale="1;1"/>
 				<glyph orgId="62945" newId="62945" orgName="check-circle-outline" newName="check-circle-outline" trans="0;0" scale="1;1"/>
@@ -142,12 +157,21 @@
 				<glyph orgId="63131" newId="63131" orgName="emoticon-excited-outline" newName="emoticon-excited-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="63133" newId="63133" orgName="format-color-text" newName="format-color-text" trans="0;0" scale="1;1"/>
 				<glyph orgId="63223" newId="63223" orgName="nut" newName="nut" trans="0;0" scale="1;1"/>
+				<glyph orgId="63255" newId="63255" orgName="source-commit" newName="source-commit" trans="0;0" scale="1;1"/>
+				<glyph orgId="63256" newId="63256" orgName="source-commit-end" newName="source-commit-end" trans="0;0" scale="1;1"/>
+				<glyph orgId="63257" newId="63257" orgName="source-commit-end-local" newName="source-commit-end-local" trans="0;0" scale="1;1"/>
+				<glyph orgId="63258" newId="63258" orgName="source-commit-local" newName="source-commit-local" trans="0;0" scale="1;1"/>
+				<glyph orgId="63259" newId="63259" orgName="source-commit-next-local" newName="source-commit-next-local" trans="0;0" scale="1;1"/>
+				<glyph orgId="63260" newId="63260" orgName="source-commit-start" newName="source-commit-start" trans="0;0" scale="1;1"/>
+				<glyph orgId="63261" newId="63261" orgName="source-commit-start-next-local" newName="source-commit-start-next-local" trans="0;0" scale="1;1"/>
 				<glyph orgId="63278" newId="63278" orgName="arrow-down-bold-box" newName="arrow-down-bold-box" trans="0;0" scale="1;1"/>
 				<glyph orgId="63281" newId="63281" orgName="arrow-left-bold-box" newName="arrow-left-bold-box" trans="0;0" scale="1;1"/>
 				<glyph orgId="63284" newId="63284" orgName="arrow-right-bold-box" newName="arrow-right-bold-box" trans="0;0" scale="1;1"/>
 				<glyph orgId="63287" newId="63287" orgName="arrow-up-bold-box" newName="arrow-up-bold-box" trans="0;0" scale="1;1"/>
+				<glyph orgId="63305" newId="63305" orgName="vector-radius" newName="vector-radius" trans="0;0" scale="1;1"/>
 				<glyph orgId="63349" newId="63349" orgName="pencil-circle-outline" newName="pencil-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="63510" newId="63510" orgName="comment-question" newName="comment-question" trans="0;0" scale="1;1"/>
+				<glyph orgId="63634" newId="63634" orgName="vector-ellipse" newName="vector-ellipse" trans="0;0" scale="1;1"/>
 				<glyph orgId="63700" newId="63700" orgName="circle-edit-outline" newName="circle-edit-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="63721" newId="63721" orgName="hammer" newName="hammer" trans="0;0" scale="1;1"/>
 				<glyph orgId="63857" newId="63857" orgName="heart-circle-outline" newName="heart-circle-outline" trans="0;0" scale="1;1"/>
@@ -176,6 +200,7 @@
 				<glyph orgId="64270" newId="64270" orgName="chevron-left-circle-outline" newName="chevron-left-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="64272" newId="64272" orgName="chevron-right-circle-outline" newName="chevron-right-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="64274" newId="64274" orgName="chevron-up-circle-outline" newName="chevron-up-circle-outline" trans="0;0" scale="1;1"/>
+				<glyph orgId="64352" newId="64352" orgName="cube-scan" newName="cube-scan" trans="0;0" scale="1;1"/>
 				<glyph orgId="64356" newId="64356" orgName="delete-circle-outline" newName="delete-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="64361" newId="64361" orgName="dots-horizontal-circle-outline" newName="dots-horizontal-circle-outline" trans="0;0" scale="1;1"/>
 				<glyph orgId="64362" newId="64362" orgName="dots-vertical-circle-outline" newName="dots-vertical-circle-outline" trans="0;0" scale="1;1"/>
@@ -229,9 +254,9 @@
 			<padding>16</padding>
 			<filtering>9729</filtering>
 			<enabled>true</enabled>
-			<collapsed>false</collapsed>
+			<collapsed>true</collapsed>
 			<filters>
-				<filter name="you"/>
+				<filter name="vec"/>
 			</filters>
 		</font>
 		<rangecoloring show="false" hash="10;15;35;0.5"/>

@@ -24,7 +24,7 @@
 #include <ezlibs/ezFile.hpp>
 #include <frontend/frontend.h>
 
-#include <core/serverController.h>
+#include <core/controller.h>
 
 // we include the cpp just for embedded fonts
 #include <res/fontIcons.cpp>
@@ -96,7 +96,7 @@ bool Backend::isThereAnError() const {
 
 // actions to do after rendering
 void Backend::PostRenderingActions() {
-    ServerController::Instance()->update();
+    Controller::Instance()->update();
 }
 
 void Backend::setAppTitle(const std::string& vLabel) {
@@ -348,12 +348,12 @@ bool Backend::m_InitImGui() {
 
 bool Backend::m_InitSystems() {
     bool ret = true;
-    ret &= ServerController::Instance()->init();
+    ret &= Controller::Instance()->init();
     return ret;
 }
 
 void Backend::m_UnitSystems() {
-    ServerController::Instance()->unit();
+    Controller::Instance()->unit();
 }
 
 void Backend::m_UnitImGui() {
