@@ -27,9 +27,9 @@ ImGuiTheme GetOrangeBlueTheme() {
     res.style.Colors[ImGuiCol_Button] = ImVec4(1.00f, 0.60f, 0.00f, 0.80f);
     res.style.Colors[ImGuiCol_ButtonHovered] = ImVec4(1.00f, 0.48f, 0.00f, 0.80f);
     res.style.Colors[ImGuiCol_ButtonActive] = ImVec4(1.00f, 0.40f, 0.00f, 0.80f);
-    res.style.Colors[ImGuiCol_Header] = ImVec4(0.13f, 0.52f, 0.94f, 0.66f);
-    res.style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.13f, 0.52f, 0.94f, 1.00f);
-    res.style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.13f, 0.52f, 0.94f, 0.59f);
+    res.style.Colors[ImGuiCol_Header] = ImVec4(1.00f, 0.60f, 0.00f, 0.80f);
+    res.style.Colors[ImGuiCol_HeaderHovered] = ImVec4(1.00f, 0.48f, 0.00f, 0.80f);
+    res.style.Colors[ImGuiCol_HeaderActive] = ImVec4(1.00f, 0.40f, 0.00f, 0.80f);
     res.style.Colors[ImGuiCol_Separator] = ImVec4(0.18f, 0.35f, 0.58f, 0.59f);
     res.style.Colors[ImGuiCol_SeparatorHovered] = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
     res.style.Colors[ImGuiCol_SeparatorActive] = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);

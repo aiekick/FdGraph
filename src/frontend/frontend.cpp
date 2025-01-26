@@ -102,24 +102,12 @@ bool Frontend::DrawDialogsAndPopups(
 
 void Frontend::m_drawMainMenuBar() {
     if (ImGui::BeginMainMenuBar()) {
-        if (ImGui::BeginMenu(ICON_FONT_TEXTURE " Canvas")) {
-            if (ImGui::MenuItem("Reset")) {
-                m_firstDraw = true;
-            }
-            if (ImGui::BeginMenu("Draw")) {
-                ImGui::MenuItem("grid", nullptr, &m_drawGrid);
-                ImGui::MenuItem("scales", nullptr, &m_drawScales);
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenu();
-        }
-
-        if (ImGui::BeginMenu(ICON_FONT_SETTINGS " Tools")) {
-            if (ImGui::BeginMenu("Styles")) {
+        if (ImGui::ContrastedBeginMenu(ICON_FONT_SETTINGS " Tools")) {
+            if (ImGui::ContrastedBeginMenu("Styles")) {
                 ImGuiThemeHelper::Instance()->DrawMenu();
 
                 if (m_drawGrid || m_drawScales) {
-                    if (ImGui::BeginMenu("Canvas")) {
+                    if (ImGui::ContrastedBeginMenu("Canvas")) {
                         ImGui::SliderFloatDefaultCompact(250.0f, "Major step X", &m_canvas.getConfigRef().gridSize.x,
                                                          1.0f, 200.0f, 50.0f, 1.0f);
                         ImGui::SliderFloatDefaultCompact(250.0f, "Major step Y", &m_canvas.getConfigRef().gridSize.y,
@@ -133,14 +121,21 @@ void Frontend::m_drawMainMenuBar() {
                 }
 
                 ImGui::Separator();
-                ImGui::MenuItem("Show ImGui", "", &m_ShowImGui);
-                ImGui::MenuItem("Show ImGui Metric/Debug", "", &m_ShowMetric);
+                ImGui::ContrastedMenuItem("Show ImGui", "", &m_ShowImGui);
+                ImGui::ContrastedMenuItem("Show ImGui Metric/Debug", "", &m_ShowMetric);
 
                 ImGui::EndMenu();
             }
 
             ImGui::EndMenu();
         }
+
+        if (ImGui::ContrastedMenuItem(ICON_FONT_TRASH_CAN "##ResetCanvas", "Reset canvas")) {
+            m_firstDraw = true;
+        }
+        ImGui::ContrastedMenuItem(ICON_FONT_GRID "##CanvasGrid", "Show grid", &m_drawGrid);
+        ImGui::ContrastedMenuItem(ICON_FONT_RULER "##CanvasRulers", "Show rulers", &m_drawScales);
+
         ServerController::Instance()->drawInput(ImGui::GetContentRegionAvail().x);
         ImGui::EndMainMenuBar();
     }
@@ -158,7 +153,13 @@ void Frontend::m_drawCanvas() {
     ImGui::SetNextWindowPos(viewport_ptr->WorkPos);
     ImGui::SetNextWindowSize(viewport_ptr->WorkSize);
     ImGui::SetNextWindowViewport(viewport_ptr->ID);
-    if (ImGui::Begin("CanvasWindow", nullptr, ImGuiWindowFlags_NoTitleBar)) {
+    static auto flags = ImGuiWindowFlags_NoTitleBar |  //
+        ImGuiWindowFlags_NoResize |                    //
+        ImGuiWindowFlags_NoMove |                      //
+        ImGuiWindowFlags_NoScrollbar |                 //
+        ImGuiWindowFlags_NoScrollWithMouse |           //
+        ImGuiWindowFlags_NoCollapse;
+    if (ImGui::Begin("CanvasWindow", nullptr, flags)) {
         const auto content_size = ImGui::GetContentRegionAvail();
         if (m_canvas.begin("Canvas", content_size)) {
             if (m_drawGrid) {

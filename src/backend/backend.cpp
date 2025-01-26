@@ -96,7 +96,7 @@ bool Backend::isThereAnError() const {
 
 // actions to do after rendering
 void Backend::PostRenderingActions() {
-
+    ServerController::Instance()->update();
 }
 
 void Backend::setAppTitle(const std::string& vLabel) {

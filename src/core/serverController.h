@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stack>
 #include <mutex>
 #include <vector>
 #include <thread>
@@ -28,16 +29,19 @@ private:
     ez::NamedPipe::Server::Ptr m_serverPtr;
     std::atomic<bool> m_threadWorking{true};
     std::thread m_namedPipeServerControllerThread;
+    std::stack<std::string> m_cmdStack;
 
 public:
     bool init();
     void unit();
+    void update();
     bool drawInput(float vMaxWidth);
     bool drawControl(float vMaxWidth);
     void drawGraph(ImCanvas& vCanvas);
     void drawCursor(ImCanvas& vCanvas);
 
 private:
+    void m_startNamedPipeServer();
     void m_namedPipeServerWorker();
     void m_createNode(const ez::fvec2& vNodePos);
     void m_moveCursor(const ez::fvec2& vCursorPos);

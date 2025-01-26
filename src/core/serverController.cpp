@@ -4,28 +4,67 @@
 #include <ezlibs/ezLog.hpp>
 #include <ezlibs/ezImGui.hpp>
 
+/* CLIENT
+
+bool ClientController::init() {
+    m_clientPtr = ez::NamedPipe::Client::create("FdGraph");
+    return (m_clientPtr != nullptr);
+}
+
+void ClientController::unit() {
+    m_clientPtr.reset();
+}
+
+bool ClientController::drawInput(float vMaxWidth) {
+    const auto w = 120.0f;
+return false;
+}
+
+bool ClientController::drawControl(float vMaxWidth) {
+    bool change = false;
+    return change;
+}
+
+void ClientController::drawGraph() {}
+
+void ClientController::drawCursor() {
+    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&  //
+        !ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+        m_createNode(ImGui::GetMousePos());
+    }
+    m_moveCursor(ImGui::GetMousePos());
+}
+
+void ClientController::m_createNode(const ez::fvec2& vNodePos) {
+    const auto msg = m_cmdProcessor.encode("CreateNode", vNodePos.array());
+    if (!msg.empty()) {
+        m_clientPtr->writeString(msg);
+    }
+}
+
+void ClientController::m_moveCursor(const ez::fvec2& vCursorPos) {
+    if (m_lastCursorPos != vCursorPos) {
+        const auto msg = m_cmdProcessor.encode("MoveCursor", vCursorPos.array());
+        if (!msg.empty()) {
+            m_clientPtr->writeString(msg);
+            m_lastCursorPos = vCursorPos;
+        }
+    }
+}
+*/
+
 bool ServerController::init() {
-    m_linkNodeMode = ImWidgets::QuickStringCombo(0, {"Link to shortest node in radius", "Link to all nodes in radius"});
+    m_linkNodeMode = ImWidgets::QuickStringCombo(0, {"Link to shortest", "Link to all"});
     m_mouseColor = ImGui::GetColorU32(ImVec4(1, 1, 0, 1));
     m_poximityColor = ImGui::GetColorU32(ImVec4(0.25, 1, 0, 1));
-    m_cmdProcessor.registerCmd(  //
-        "CreateNode",
-        [this](const ez::CmdProcessor::Command& vCmd, const ez::CmdProcessor::Arguments& vArgs) {  //
-            m_createNode(vArgs);
-        });
-    m_cmdProcessor.registerCmd(  //
-        "MoveCursor",
-        [this](const ez::CmdProcessor::Command& vCmd, const ez::CmdProcessor::Arguments& vArgs) {  //
-            m_moveCursor(vArgs);
-        });
-    m_threadWorking = true;
-    m_namedPipeServerControllerThread = std::thread(&ServerController::m_namedPipeServerWorker, this);
     return true;
 }
 
 void ServerController::unit() {
     m_threadWorking = false;
-    m_namedPipeServerControllerThread.join();
+    if (m_namedPipeServerControllerThread.joinable()) {
+        m_namedPipeServerControllerThread.join();
+    }
 }
 
 bool ServerController::drawInput(float vMaxWidth) {
@@ -49,8 +88,24 @@ bool ServerController::drawControl(float vMaxWidth) {
     return change;
 }
 
-void ServerController::drawGraph(ImCanvas& vCanvas) {
+void ServerController::update() {
+    std::vector<std::string> arr;
+    m_mutex.lock();
+    arr.reserve(m_cmdStack.size());
+    while (!m_cmdStack.empty()) {
+        arr.push_back(m_cmdStack.top());
+        m_cmdStack.pop();
+    }
+    m_mutex.unlock();
+    for (const auto& a : arr) {
+        if (!m_cmdProcessor.decode(a)) {
+            LogVarDebugInfo("%s", "fail to decode received command");
+        }
+    }
     m_fdGraph.updateForces(ImGui::GetIO().DeltaTime);
+}
+
+void ServerController::drawGraph(ImCanvas& vCanvas) {
     auto *draw_list_ptr = ImGui::GetWindowDrawList();
     if (draw_list_ptr != nullptr) {
         for (const auto& link : m_fdGraph.getLinks()) {
@@ -96,18 +151,31 @@ void ServerController::drawCursor(ImCanvas& vCanvas) {
         vCanvas.resume();
     }
 }
-    
+
+void ServerController::m_startNamedPipeServer() {
+    m_cmdProcessor.registerCmd(  //
+        "CreateNode",
+        [this](const ez::CmdProcessor::Command& vCmd, const ez::CmdProcessor::Arguments& vArgs) {  //
+            m_createNode(vArgs);
+        });
+    m_cmdProcessor.registerCmd(  //
+        "MoveCursor",
+        [this](const ez::CmdProcessor::Command& vCmd, const ez::CmdProcessor::Arguments& vArgs) {  //
+            m_moveCursor(vArgs);
+        });
+    m_threadWorking = true;
+    m_namedPipeServerControllerThread = std::thread(&ServerController::m_namedPipeServerWorker, this);
+}
 
 void ServerController::m_namedPipeServerWorker() {
-    auto server_ptr = ez::NamedPipe::Server::create("FdGraph", 512);
+    auto server_ptr = ez::NamedPipe::Server::create("FdGraph", 64);
     if (server_ptr != nullptr) {
         LogVarDebugInfo("%s", "ServerController \"FdGraph\" started");
         while (m_threadWorking) {
             if (server_ptr->isMessageReceived()) {
+                const auto msg = server_ptr->readString();
                 m_mutex.lock();
-                if (!m_cmdProcessor.decode(server_ptr->readString())) {
-                    LogVarDebugInfo("%s", "fail to decode received command");
-                }
+                m_cmdStack.push(msg);
                 m_mutex.unlock();
             }
         }
