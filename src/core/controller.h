@@ -24,6 +24,7 @@ struct VisualNodeDatas : public ez::FdGraph::NodeDatas {
 
 class Controller {
 private:
+    ImCanvas m_canvas;
     enum class LinkingMode {  //
         NONE = 0,
         ONE,
@@ -43,6 +44,8 @@ private:
     std::mutex m_mutex;
     bool m_wasPressed = false;
     bool m_wasDragging = false;
+    bool m_drawNodes = true;
+    bool m_drawLinks = true;
     std::list<ez::FdGraph::NodeWeak> m_linkableNodes;
     std::list<std::pair<ez::FdGraph::NodeWeak, float>> m_tmpLinkableNodes;
     ez::CmdProcessor m_cmdProcessor;
@@ -50,26 +53,34 @@ private:
     std::atomic<bool> m_threadWorking{true};
     std::thread m_namedPipeControllerThread;
     std::stack<std::string> m_cmdStack;
+    std::unordered_map<std::string, ez::FdGraph::NodeWeak> m_nodesByTags;
 
 public:
     bool init();
     void unit();
     void update();
-    bool drawMenu(float vMaxWidth, ImCanvas& vCanvas);
+    bool drawMenu(float vMaxWidth);
     bool drawStatusControl(float vMaxWidth);
-    void drawGraph(ImCanvas& vCanvas);
-    void drawCursor(ImCanvas& vCanvas);
+
+    void drawCanvas();
+    void drawGraph();
+    void drawCursor();
     void drawDialogs(const ImVec2& vScreenSize);
 
 private:
-    void m_saveToSvgFile(const std::string& vFilePathName);
-    void m_startNamedPipeServer();
+    float m_getMouseRadius() const;
     void m_namedPipeServerWorker();
     void m_createNode(const ez::fvec2& vNodePos);
+    ez::FdGraph::NodeWeak m_createNode(const std::string& vTag);
     void m_moveCursor(const ez::fvec2& vCursorPos);
     void m_buildLinkableNodes();
-    void m_drawLinkableNodes(ImDrawList* vDrawnListPtr, ImCanvas& vCanvas);
+    void m_drawLinkableNodes(ImDrawList* vDrawnListPtr);
     void m_createLinks(const ez::FdGraph::NodeWeak& vNode);
+    void m_startStopServer();
+    void m_startStopClient();
+    void m_importCsvFile(const std::string& vFilePathName);
+    void m_exportCsvFile(const std::string& vFilePathName);
+    void m_exportSvgFile(const std::string& vFilePathName);
 
 public:  // singleton
     static Controller* Instance() {

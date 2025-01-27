@@ -41,9 +41,6 @@ Frontend::~Frontend() = default;
 
 bool Frontend::init() {
     m_build_themes();
-    m_canvas.getConfigRef().zoomFactor = 0.1f;
-    m_canvas.getConfigRef().zoomStep = 0.1f;
-    m_canvas.getConfigRef().draggingButton = ImGuiMouseButton_Left;
     return m_build();
 }
 
@@ -116,7 +113,7 @@ void Frontend::m_drawMainMenuBar() {
 
         ImGui::Separator();
 
-        Controller::Instance()->drawMenu(ImGui::GetContentRegionAvail().x, m_canvas);
+        Controller::Instance()->drawMenu(ImGui::GetContentRegionAvail().x);
 
         ImGui::EndMainMenuBar();
     }
@@ -125,6 +122,11 @@ void Frontend::m_drawMainMenuBar() {
 void Frontend::m_drawMainStatusBar() {
     if (ImGui::BeginMainStatusBar()) {
         Controller::Instance()->drawStatusControl(ImGui::GetContentRegionAvail().x);
+        const auto &io = ImGui::GetIO();
+        const auto fps = ez::str::toStr("%.1fms(%.1ffps)", 1000.0f / io.Framerate, io.Framerate);
+        const auto size = ImGui::CalcTextSize(fps.c_str());
+        ImGui::Spacing(ImGui::GetContentRegionAvail().x - size.x - ImGui::GetStyle().FramePadding.x * 2.0f);
+        ImGui::Text("%s", fps.c_str());
         ImGui::EndMainStatusBar();
     }
 }
@@ -141,12 +143,7 @@ void Frontend::m_drawCanvas() {
         ImGuiWindowFlags_NoScrollWithMouse |           //
         ImGuiWindowFlags_NoCollapse;
     if (ImGui::Begin("CanvasWindow", nullptr, flags)) {
-        const auto content_size = ImGui::GetContentRegionAvail();
-        if (m_canvas.begin("Canvas", content_size)) {
-            Controller::Instance()->drawGraph(m_canvas);
-            Controller::Instance()->drawCursor(m_canvas);
-            m_canvas.end();
-        }
+        Controller::Instance()->drawCanvas();
     }
     ImGui::End();
 }

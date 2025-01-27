@@ -34,7 +34,6 @@ private:
     bool m_ShowImGui = false;
     bool m_ShowMetric = false;
     ImRect m_DisplayRect = ImRect(ImVec2(0, 0), ImVec2(1280, 720));
-    ImCanvas m_canvas;
 
 public:
     static bool sCentralWindowHovered;
