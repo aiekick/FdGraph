@@ -3,7 +3,7 @@
 
 #include "app.h"
 
-#include <headers/FdGraphBuild.h>
+#include <headers/WookieLinksBuild.h>
 #include <backend/backend.h>
 
 #include <ezlibs/ezApp.hpp>
@@ -29,9 +29,9 @@
 
 int App::run(int argc, char** argv) {
     ez::App app(argc, argv);
-    std::cout << FdGraph_FigFontLabel << std::endl;
+    std::cout << WookieLinks_FigFontLabel << std::endl;
     std::cout << "-----------" << std::endl;
-    LogVarLightInfo("[[ %s Beta v%s ]]", FdGraph_Label, FdGraph_BuildId);
+    LogVarLightInfo("[[ %s Beta v%s ]]", WookieLinks_Label, WookieLinks_BuildId);
     Messaging::Instance()->AddCategory(MESSAGING_CODE_INFOS, "Info(s)", BAR_LABEL_INFOS, ImVec4(0.0f, 0.8f, 0.0f, 1.0f));
     Messaging::Instance()->AddCategory(MESSAGING_CODE_WARNINGS, "Warning(s)", BAR_LABEL_WARNINGS, ImVec4(0.8f, 0.8f, 0.0f, 1.0f));
     Messaging::Instance()->AddCategory(MESSAGING_CODE_ERRORS, "Error(s)", ICON_FONT_SPACE_INVADERS, ImVec4(0.8f, 0.0f, 0.0f, 1.0f));
