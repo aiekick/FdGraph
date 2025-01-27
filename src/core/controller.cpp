@@ -158,8 +158,11 @@ void Controller::update() {
     }
     m_fdGraph.updateForces(ImGui::GetIO().DeltaTime);
     m_aabb.Set(0.0f, 0.0f);
-    for (const auto& node_ptr : m_fdGraph.getNodes()) {
-        m_aabb.Combine(node_ptr->getDatas().pos);
+    for (auto& node_ptr : m_fdGraph.getNodes()) {
+        auto& datas = node_ptr->getDatasRef<VisualNodeDatas>();
+        datas.mass = 5.0f + 5.0f * static_cast<float>(datas.connCount);
+        datas.radius = 1.5f + 0.2f * static_cast<float>(datas.connCount);
+        m_aabb.Combine(datas.pos);
     }
 }
 
