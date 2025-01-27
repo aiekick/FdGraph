@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-set(PROJECT FdGraph)
+set(PROJECT WookieLinks)
 
 project(${PROJECT} CXX)
 enable_language(C CXX)
@@ -181,6 +181,7 @@ add_subdirectory(3rdparty/buildinc)
 add_custom_command(
 	TARGET ${PROJECT} PRE_BUILD
 	COMMAND BuildInc ${PROJECT} $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/src/headers/${PROJECT}Build.h> -ff ${CMAKE_SOURCE_DIR}/src/res/big.flf --no-help
+	DEPENDS ${PROJECT}
 )
 
 ########################################################
