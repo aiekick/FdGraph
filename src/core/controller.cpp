@@ -82,17 +82,17 @@ bool Controller::drawMenu(float vMaxWidth) {
     
     if (ImGui::ContrastedBeginMenu(ICON_FONT_TUNE " ##Tuning", "Tuning")) {
         if (m_drawGrid || m_drawScales) {
-            ImGui::SliderFloatDefaultCompact(250.0f, "Major step X", &m_canvas.getConfigRef().gridSize.x, 1.0f, 200.0f, 50.0f, 1.0f);
-            ImGui::SliderFloatDefaultCompact(250.0f, "Major step Y", &m_canvas.getConfigRef().gridSize.y, 1.0f, 200.0f, 50.0f, 1.0f);
-            ImGui::SliderFloatDefaultCompact(250.0f, "Subdivs X", &m_canvas.getConfigRef().gridSubdivs.x, 0.0f, 50.0f, 5.0f, 1.0f);
-            ImGui::SliderFloatDefaultCompact(250.0f, "Subdivs Y", &m_canvas.getConfigRef().gridSubdivs.y, 0.0f, 50.0f, 5.0f, 1.0f);
+            ret |= ImGui::SliderFloatDefaultCompact(250.0f, "Major step X", &m_canvas.getConfigRef().gridSize.x, 1.0f, 200.0f, 50.0f, 1.0f);
+            ret |= ImGui::SliderFloatDefaultCompact(250.0f, "Major step Y", &m_canvas.getConfigRef().gridSize.y, 1.0f, 200.0f, 50.0f, 1.0f);
+            ret |= ImGui::SliderFloatDefaultCompact(250.0f, "Subdivs X", &m_canvas.getConfigRef().gridSubdivs.x, 0.0f, 50.0f, 5.0f, 1.0f);
+            ret |= ImGui::SliderFloatDefaultCompact(250.0f, "Subdivs Y", &m_canvas.getConfigRef().gridSubdivs.y, 0.0f, 50.0f, 5.0f, 1.0f);
+
+            ImGui::Separator();
         }
         
-        ImGui::Separator();
-
-        ImGui::SliderFloatDefaultCompact(250.0f, "Gravity", &m_fdGraph.getConfigRef().centralGravityFactor, 0.0f, 200.0f, 1.1f, 1.0f);
-        ImGui::SliderFloatDefaultCompact(250.0f, "Force", &m_fdGraph.getConfigRef().forceFactor, 0.0f, 100000.0f, 1000.0f, 1.0f);
-        ImGui::SliderFloatDefaultCompact(250.0f, "Convergence speed", &m_fdGraph.getConfigRef().deltaTimeFactor, 0.0f, 20.0f, 2.0f, 1.0f);
+        ret |= ImGui::SliderFloatDefaultCompact(250.0f, "Gravity", &m_fdGraph.getConfigRef().centralGravityFactor, 0.0f, 200.0f, 1.1f, 1.0f);
+        ret |= ImGui::SliderFloatDefaultCompact(250.0f, "Force", &m_fdGraph.getConfigRef().forceFactor, 0.0f, 100000.0f, 1000.0f, 1.0f);
+        ret |= ImGui::SliderFloatDefaultCompact(250.0f, "Convergence speed", &m_fdGraph.getConfigRef().deltaTimeFactor, 0.0f, 20.0f, 2.0f, 1.0f);
 
         ImGui::EndMenu();
     }
@@ -104,6 +104,7 @@ bool Controller::drawMenu(float vMaxWidth) {
             IGFD::FileDialogConfig config;
             config.flags = ImGuiFileDialogFlags_Modal;
             ImGuiFileDialog::Instance()->OpenDialog("ImportCsv", "Import from Csv", ".csv", config);
+            ret = true;
         }
         ImGui::EndMenu();
     }
@@ -112,11 +113,13 @@ bool Controller::drawMenu(float vMaxWidth) {
             IGFD::FileDialogConfig config;
             config.flags = ImGuiFileDialogFlags_Modal;
             ImGuiFileDialog::Instance()->OpenDialog("ExportToCsv", "Export to csv", ".csv", config);
+            ret = true;
         }
         if (ImGui::ContrastedMenuItem("Export to Svg")) {
             IGFD::FileDialogConfig config;
             config.flags = ImGuiFileDialogFlags_Modal;
             ImGuiFileDialog::Instance()->OpenDialog("ExportToSvg", "Export to svg", ".svg", config);
+            ret = true;
         }
         ImGui::EndMenu();
     }
@@ -126,9 +129,11 @@ bool Controller::drawMenu(float vMaxWidth) {
     if (ImGui::ContrastedBeginMenu(ICON_FONT_TRASH_CAN " ##Reset", "Reset")) {
         if (ImGui::ContrastedMenuItem("Canvas")) {
             m_firstDraw = true;
+            ret = true;
         }
         if (ImGui::ContrastedMenuItem("Graph")) {
             m_fdGraph.clear();
+            ret = true;
         }
         ImGui::EndMenu();
     }
@@ -141,10 +146,14 @@ bool Controller::drawMenu(float vMaxWidth) {
     ImGui::Separator();
 
     if (ImGui::ContrastedBeginMenu(ICON_FONT_EYE "##Visibility", "Visibility")) {
-        ImGui::ContrastedMenuItem("Grid", nullptr, &m_drawGrid);
-        ImGui::ContrastedMenuItem("Rulers", nullptr, &m_drawScales);
-        ImGui::ContrastedMenuItem("Nodes", nullptr, &m_drawNodes);
-        ImGui::ContrastedMenuItem("Links", nullptr, &m_drawLinks);
+        ret |= ImGui::ContrastedMenuItem("Grid", nullptr, &m_drawGrid);
+        ret |= ImGui::ContrastedMenuItem("Rulers", nullptr, &m_drawScales);
+
+        ImGui::Separator();
+
+        ret |= ImGui::ContrastedMenuItem("Nodes", nullptr, &m_drawNodes);
+        ret |= ImGui::ContrastedMenuItem("Links", nullptr, &m_drawLinks);
+
         ImGui::EndMenu();
     }
 
@@ -170,22 +179,19 @@ bool Controller::drawMenu(float vMaxWidth) {
     ImGui::Separator();
 
     if (ImGui::ContrastedMenuItem(ICON_FONT_SERVER "##Server", "Server mode")) {
+        ret = true;
         EZ_TOOLS_DEBUG_BREAK;
     }
 
     if (ImGui::ContrastedMenuItem(ICON_FONT_ACCESS_POINT "##Client", "Client mode")) {
+        ret = true;
         EZ_TOOLS_DEBUG_BREAK;
     }
 
     ImGui::Separator();
 
     if (ImGui::ContrastedBeginMenu(ICON_FONT_BUG " ##Debug", "Debug view")) {
-        if (ImGui::ContrastedMenuItem("Canvas")) {
-            m_firstDraw = true;
-        }
-        if (ImGui::ContrastedMenuItem("Graph")) {
-            m_fdGraph.clear();
-        }
+        
         ImGui::EndMenu();
     }
 
