@@ -236,6 +236,7 @@ void Backend::m_IncFrame() {
 ez::xml::Nodes Backend::getXmlNodes(const std::string& vUserDatas) {
     ez::xml::Node node;
     node.addChilds(Frontend::Instance()->getXmlNodes(vUserDatas));
+    node.addChilds(Controller::Instance()->getXmlNodes(vUserDatas));
     return node.getChildren();
 }
 
@@ -244,6 +245,7 @@ bool Backend::setFromXmlNodes(const ez::xml::Node& vNode, const ez::xml::Node& v
     const auto& strValue = vNode.getContent();
     const auto& strParentName = vParent.getName();
     Frontend::Instance()->setFromXmlNodes(vNode, vParent, vUserDatas);
+    Controller::Instance()->setFromXmlNodes(vNode, vParent, vUserDatas);
     return true;
 }
 

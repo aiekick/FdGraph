@@ -14,15 +14,16 @@
 #include <ezlibs/ezNamedPipe.hpp>
 #include <ezlibs/ezCmdProcessor.hpp>
 #include <ezlibs/ezAABB.hpp>
+#include <ezlibs/ezXmlConfig.hpp>
 
 struct VisualNodeDatas : public ez::FdGraph::NodeDatas {
-    float radius = 1.0f;
+    float size = 1.0f;
     std::string tag;
     ImVec4 color;
     VisualNodeDatas() = default;
 };
 
-class Controller {
+class Controller : public ez::xml::Config {
 private:
     ImCanvas m_canvas;
     enum class LinkingMode {  //
@@ -31,12 +32,22 @@ private:
         TWO,
         MANY,
         Count
-    } m_linkingMode{LinkingMode::NONE};
+    };
+    struct Datas {
+        LinkingMode m_linkingMode{LinkingMode::NONE};
+        bool m_drawGrid{true};
+        bool m_drawScales{false};
+        float m_mouseRadius{100.0f};
+        ImVec4 m_mouseColorV4{ImVec4(1, 1, 0, 1)};
+        ImVec4 m_poximityColorV4{ImVec4(0.25, 1, 0, 1)};
+        float m_nodeScaleFactor{2.5f};
+        float m_linkScaleFactor{2.5f};
+        float m_defaultLerpValue{0.2f};
+        float m_incrementLerpValue{0.02f};
+    } m_datas;
+    static Datas DefaultDatas;
     bool m_firstDraw = true;
-    bool m_drawGrid = true;
-    bool m_drawScales = false;
     ez::fAABB m_aabb;
-    float m_mouseRadius = 100.0f;
     ImU32 m_mouseColor = 0;
     ImU32 m_poximityColor = 0;
     ez::fvec2 m_cursorPos;
@@ -46,6 +57,8 @@ private:
     bool m_wasDragging = false;
     bool m_drawNodes = true;
     bool m_drawLinks = true;
+    float m_lerpValue{m_datas.m_defaultLerpValue};
+    ez::FdGraph::NodeWeak m_closestNode;
     std::list<ez::FdGraph::NodeWeak> m_linkableNodes;
     std::list<std::pair<ez::FdGraph::NodeWeak, float>> m_tmpLinkableNodes;
     ez::CmdProcessor m_cmdProcessor;
@@ -58,6 +71,7 @@ private:
 public:
     bool init();
     void unit();
+    void clear();
     void update();
     bool drawMenu(float vMaxWidth);
     bool drawStatusControl(float vMaxWidth);
@@ -67,12 +81,17 @@ public:
     void drawCursor();
     void drawDialogs(const ImVec2& vScreenSize);
 
+    ez::xml::Nodes getXmlNodes(const std::string& vUserDatas = "") override;
+    bool setFromXmlNodes(const ez::xml::Node& vNode, const ez::xml::Node& vParent, const std::string& vUserDatas) override;
+
 private:
+    ez::FdGraph::NodeWeak m_findClosestNode(const ez::fvec2& vCursorPos);
     float m_getMouseRadius() const;
     void m_namedPipeServerWorker();
     void m_createNode(const ez::fvec2& vNodePos);
     ez::FdGraph::NodeWeak m_createNode(const std::string& vTag);
     void m_moveCursor(const ez::fvec2& vCursorPos);
+    void m_moveClosestNode();
     void m_buildLinkableNodes();
     void m_drawLinkableNodes(ImDrawList* vDrawnListPtr);
     void m_createLinks(const ez::FdGraph::NodeWeak& vNode);
