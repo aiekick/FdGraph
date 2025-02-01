@@ -16,6 +16,20 @@
 #include <ezlibs/ezAABB.hpp>
 #include <ezlibs/ezXmlConfig.hpp>
 
+class ContrastedFileDialog : public IGFD::FileDialog {
+protected:
+    bool m_Selectable(int vRowIdx, const char* vLabel, bool vSelected, ImGuiSelectableFlags vFlags, const ImVec2& vSizeArg) override;
+    void m_drawColumnText(int vColIdx, const char* vLabel, bool /*vSelected*/, bool /*vHovered*/) override;
+
+public:
+    // Singleton for easier accces form anywhere but only one dialog at a time
+    // vCopy or vForce can be used for share a memory pointer in a new memory space like a dll module
+    static ContrastedFileDialog* Instance() {
+        static ContrastedFileDialog _instance;
+        return &_instance;
+    }
+};
+
 struct VisualNodeDatas : public ez::FdGraph::NodeDatas {
     float size = 1.0f;
     std::string tag;

@@ -60,6 +60,44 @@ void ClientController::m_moveCursor(const ez::fvec2& vCursorPos) {
 
 Controller::Datas Controller::DefaultDatas;
 
+bool ContrastedFileDialog::m_Selectable(int vIdx, const char* vLabel, bool vSelected, ImGuiSelectableFlags vFlags, const ImVec2& vSizeArg) {
+    bool ret = false;
+    auto* storage_ptr = ImGui::GetStateStorage();
+    const auto imgui_id = ImGui::GetID(vLabel);
+    ImGuiCol col = storage_ptr->GetInt(imgui_id);
+    const bool pushed = ImGui::PushStyleColorWithContrast1(col, ImGuiCol_Text, ImGui::CustomStyle::puContrastedTextColor, ImGui::CustomStyle::puContrastRatio);
+    ret = ImGuiFileDialog::m_Selectable(vIdx, vLabel, vSelected, vFlags, vSizeArg);
+    if (ImGui::IsItemHovered()) {
+        storage_ptr->SetInt(imgui_id, ImGuiCol_HeaderHovered);
+    } else if (vSelected) {
+        storage_ptr->SetInt(imgui_id, ImGuiCol_Header);
+    } else {
+        storage_ptr->SetInt(imgui_id, ImGuiCol_PopupBg);
+    }
+    if (pushed) {
+        ImGui::PopStyleColor();
+    }
+    return ret;
+}
+
+void ContrastedFileDialog::m_drawColumnText(int vColIdx, const char* vLabel, bool vSelected, bool vHovered) {
+    auto* storage_ptr = ImGui::GetStateStorage();
+    const auto imgui_id = ImGui::GetID(vLabel);
+    ImGuiCol col = storage_ptr->GetInt(imgui_id);
+    const bool pushed = ImGui::PushStyleColorWithContrast1(col, ImGuiCol_Text, ImGui::CustomStyle::puContrastedTextColor, ImGui::CustomStyle::puContrastRatio);
+    ImGuiFileDialog::m_drawColumnText(vColIdx, vLabel, vSelected, vHovered);
+    if (vHovered) {
+        storage_ptr->SetInt(imgui_id, ImGuiCol_HeaderHovered);
+    } else if (vSelected) {
+        storage_ptr->SetInt(imgui_id, ImGuiCol_Header);
+    } else {
+        storage_ptr->SetInt(imgui_id, ImGuiCol_PopupBg);
+    }
+    if (pushed) {
+        ImGui::PopStyleColor();
+    }
+}
+
 bool Controller::init() {
     m_datas.m_mouseColorV4 = ImVec4(1, 1, 0, 1);
     m_datas.m_poximityColorV4 = ImVec4(0.25, 1, 0, 1);
@@ -118,9 +156,8 @@ bool Controller::drawMenu(float vMaxWidth) {
         ret |= ImGui::SliderFloatDefaultCompact(500.0f, "Gravity", &m_fdGraph.getConfigRef().centralGravityFactor, 0.0f, 200.0f, 5.0f);
         ret |= ImGui::SliderFloatDefaultCompact(500.0f, "Force", &m_fdGraph.getConfigRef().forceFactor, 0.0f, 100000.0f, 1000.0f);
         ret |= ImGui::SliderFloatDefaultCompact(500.0f, "Convergence speed", &m_fdGraph.getConfigRef().deltaTimeFactor, 0.0f, 50.0f, 10.0f);
-        
 
-            ImU32 m_mouseColor = 0;
+        ImU32 m_mouseColor = 0;
         ImU32 m_poximityColor = 0;
         ImGui::EndMenu();
     }
@@ -131,7 +168,7 @@ bool Controller::drawMenu(float vMaxWidth) {
         if (ImGui::ContrastedMenuItem("Import from Csv")) {
             IGFD::FileDialogConfig config;
             config.flags = ImGuiFileDialogFlags_Modal;
-            ImGuiFileDialog::Instance()->OpenDialog("ImportCsv", "Import from Csv", ".csv", config);
+            ContrastedFileDialog::Instance()->OpenDialog("ImportCsv", "Import from Csv", ".csv", config);
             ret = true;
         }
         ImGui::EndMenu();
@@ -140,13 +177,13 @@ bool Controller::drawMenu(float vMaxWidth) {
         if (ImGui::ContrastedMenuItem("Export to Csv")) {
             IGFD::FileDialogConfig config;
             config.flags = ImGuiFileDialogFlags_Modal;
-            ImGuiFileDialog::Instance()->OpenDialog("ExportToCsv", "Export to csv", ".csv", config);
+            ContrastedFileDialog::Instance()->OpenDialog("ExportToCsv", "Export to csv", ".csv", config);
             ret = true;
         }
         if (ImGui::ContrastedMenuItem("Export to Svg")) {
             IGFD::FileDialogConfig config;
             config.flags = ImGuiFileDialogFlags_Modal;
-            ImGuiFileDialog::Instance()->OpenDialog("ExportToSvg", "Export to svg", ".svg", config);
+            ContrastedFileDialog::Instance()->OpenDialog("ExportToSvg", "Export to svg", ".svg", config);
             ret = true;
         }
         ImGui::EndMenu();
@@ -341,23 +378,23 @@ void Controller::drawCursor() {
 void Controller::drawDialogs(const ImVec2& vScreenSize) {
     ImVec2 max = vScreenSize;
     ImVec2 min = max * 0.5f;
-    if (ImGuiFileDialog::Instance()->Display("ImportCsv", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking, min, max)) {
-        if (ImGuiFileDialog::Instance()->IsOk()) {
-            m_importCsvFile(ImGuiFileDialog::Instance()->GetFilePathName());
+    if (ContrastedFileDialog::Instance()->Display("ImportCsv", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking, min, max)) {
+        if (ContrastedFileDialog::Instance()->IsOk()) {
+            m_importCsvFile(ContrastedFileDialog::Instance()->GetFilePathName());
         }
-        ImGuiFileDialog::Instance()->Close();
+        ContrastedFileDialog::Instance()->Close();
     }
-    if (ImGuiFileDialog::Instance()->Display("ExportToCsv", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking, min, max)) {
-        if (ImGuiFileDialog::Instance()->IsOk()) {
-            m_exportCsvFile(ImGuiFileDialog::Instance()->GetFilePathName());
+    if (ContrastedFileDialog::Instance()->Display("ExportToCsv", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking, min, max)) {
+        if (ContrastedFileDialog::Instance()->IsOk()) {
+            m_exportCsvFile(ContrastedFileDialog::Instance()->GetFilePathName());
         }
-        ImGuiFileDialog::Instance()->Close();
+        ContrastedFileDialog::Instance()->Close();
     }
-    if (ImGuiFileDialog::Instance()->Display("ExportToSvg", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking, min, max)) {
-        if (ImGuiFileDialog::Instance()->IsOk()) {
-            m_exportSvgFile(ImGuiFileDialog::Instance()->GetFilePathName());
+    if (ContrastedFileDialog::Instance()->Display("ExportToSvg", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking, min, max)) {
+        if (ContrastedFileDialog::Instance()->IsOk()) {
+            m_exportSvgFile(ContrastedFileDialog::Instance()->GetFilePathName());
         }
-        ImGuiFileDialog::Instance()->Close();
+        ContrastedFileDialog::Instance()->Close();
     }
 }
 
